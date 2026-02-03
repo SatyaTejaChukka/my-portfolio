@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Send, Mail, Phone, MapPin, User, MessageCircle } from 'lucide-react';
+import { Send, Mail, Phone, MapPin, User, MessageCircle, MousePointer2 } from 'lucide-react';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -65,6 +65,9 @@ const Contact = () => {
                                     <h4 className="font-bold">Email</h4>
                                     <p className="text-[var(--text-muted)] group-hover:text-[var(--primary)] transition-colors">satyateja671@gmail.com</p>
                                 </div>
+                                <span className="contact-click" aria-hidden="true">
+                                    <MousePointer2 size={18} />
+                                </span>
                             </a>
 
                             <a href="tel:+916301304206" className="contact-item group">
@@ -75,6 +78,9 @@ const Contact = () => {
                                     <h4 className="font-bold">Phone</h4>
                                     <p className="text-[var(--text-muted)] group-hover:text-[var(--primary)] transition-colors">+91 6301304206</p>
                                 </div>
+                                <span className="contact-click" aria-hidden="true">
+                                    <MousePointer2 size={18} />
+                                </span>
                             </a>
 
                             <a href="https://wa.me/916301304206" target="_blank" rel="noopener noreferrer" className="contact-item group">
@@ -87,6 +93,9 @@ const Contact = () => {
                                     <h4 className="font-bold">WhatsApp</h4>
                                     <p className="text-[var(--text-muted)] group-hover:text-[var(--primary)] transition-colors">+91 6301304206</p>
                                 </div>
+                                <span className="contact-click" aria-hidden="true">
+                                    <MousePointer2 size={18} />
+                                </span>
                             </a>
 
                         </div>

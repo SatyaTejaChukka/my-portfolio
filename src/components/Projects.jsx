@@ -127,6 +127,16 @@ const CATEGORIES = ['All', 'Web', 'AI'];
 
 const Projects = () => {
   const [filter, setFilter] = useState('All');
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const filteredProjects =
     filter === 'All'
@@ -169,8 +179,9 @@ const Projects = () => {
           className="projects-grid"
           variants={gridVariants}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          animate={isDesktop ? "hidden" : "visible"}
+          whileInView={isDesktop ? "visible" : undefined}
+          viewport={isDesktop ? { once: true, margin: "0px 0px -100px 0px" } : undefined}
         >
           <AnimatePresence>
             {filteredProjects.map((project) => (
