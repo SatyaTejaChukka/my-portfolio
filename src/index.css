@@ -901,6 +901,77 @@ ul {
   gap: 4rem;
 }
 
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 1rem;
+  border-radius: 1rem;
+  padding: 1.2rem 1.5rem;
+  border-radius: 1rem;
+  border: 1.5px solid transparent;
+  background: rgba(255, 255, 255, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: inherit;
+}
+
+.contact-item:hover {
+  border-color: rgba(0, 243, 255, 0.5);
+  background: rgba(0, 243, 255, 0.08);
+  box-shadow: 0 8px 25px rgba(0, 243, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+[data-theme="light"] .contact-item {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: transparent;
+}
+
+[data-theme="light"] .contact-item:hover {
+  border-color: #0369a1;
+  background: rgba(3, 105, 161, 0.08);
+  box-shadow: 0 8px 25px rgba(3, 105, 161, 0.12), inset 0 1px 0 rgba(0, 0, 0, 0.05);
+}
+
+.social-icons {
+  display: flex;
+  items-center: gap;
+  gap: 2rem;
+}
+
+.social-icon-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 0.75rem;
+  border: 1.5px solid transparent;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.social-icon-link:hover {
+  border-color: rgba(0, 243, 255, 0.6);
+  background: rgba(0, 243, 255, 0.12);
+  color: var(--primary);
+  box-shadow: 0 6px 20px rgba(0, 243, 255, 0.2);
+  transform: translateY(-3px) scale(1.05);
+}
+
+[data-theme="light"] .social-icon-link {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: transparent;
+}
+
+[data-theme="light"] .social-icon-link:hover {
+  border-color: #0369a1;
+  background: rgba(3, 105, 161, 0.12);
+  color: #0369a1;
+  box-shadow: 0 6px 20px rgba(3, 105, 161, 0.18);
+}
+
 .contact-grid .glass-panel {
   background: rgba(var(--primary-rgb), 0.1);
   border: 1px solid rgba(var(--primary-rgb), 0.2);
