@@ -517,8 +517,8 @@ ul {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-top: 1rem;
   margin-top: auto;
+  padding-top: 1.5rem;
 }
 
 .project-action-btn {

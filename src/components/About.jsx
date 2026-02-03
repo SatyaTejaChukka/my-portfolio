@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import profileImg from '../assets/profile.png';
 
 const About = () => {
     const [ref, inView] = useInView({
