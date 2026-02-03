@@ -198,7 +198,7 @@ const Projects = () => {
                     {project.category.toUpperCase()}
                   </span>
 
-                  <h3 className="text-xl font-bold mb-2">
+                  <h3 className="project-title">
                     {project.title}
                   </h3>
 

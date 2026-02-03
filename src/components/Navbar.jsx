@@ -45,7 +45,7 @@ const Navbar = () => {
                             key={link.name}
                             href={link.href}
                             className="nav-link"
-                            whileHover={{ scale: 1.1, color: 'var(--primary)' }}
+                            whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.95 }}
                         >
                             {link.name}
@@ -77,23 +77,42 @@ const Navbar = () => {
             {/* Mobile Menu */}
             {isOpen && (
                 <motion.div
-                    initial={{ opacity: 0, y: -20 }}
+                    initial={{ opacity: 0, y: -12 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="md:hidden absolute top-full left-0 w-full glass-panel border-t-0"
+                    className="md:hidden absolute top-full left-0 w-full mobile-menu"
                 >
-                    <div className="flex flex-col p-4 space-y-4">
-                        {navLinks.map((link) => (
-                            <motion.a
-                                key={link.name}
-                                href={link.href}
-                                className="nav-link block py-2"
-                                onClick={() => setIsOpen(false)}
-                                whileHover={{ x: 10, color: 'var(--primary)' }}
-                                whileTap={{ scale: 0.95 }}
+                    <div className="mobile-menu-panel glass-panel">
+                        <div className="mobile-menu-header">
+                            <span>Menu</span>
+                            <button
+                                type="button"
+                                onClick={toggleTheme}
+                                className="theme-toggle"
+                                aria-label="Toggle theme"
                             >
-                                {link.name}
-                            </motion.a>
-                        ))}
+                                {theme === 'dark' ? (
+                                    <Sun size={18} className="text-yellow-400" />
+                                ) : (
+                                    <Moon size={18} className="text-[var(--primary)]" />
+                                )}
+                            </button>
+                        </div>
+
+                        <div className="mobile-menu-links">
+                            {navLinks.map((link) => (
+                                <motion.a
+                                    key={link.name}
+                                    href={link.href}
+                                    className="mobile-menu-link"
+                                    onClick={() => setIsOpen(false)}
+                                    whileHover={{ x: 6 }}
+                                    whileTap={{ scale: 0.98 }}
+                                >
+                                    <span>{link.name}</span>
+                                    <span className="mobile-menu-arrow">→</span>
+                                </motion.a>
+                            ))}
+                        </div>
                     </div>
                 </motion.div>
             )}

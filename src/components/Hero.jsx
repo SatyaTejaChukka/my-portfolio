@@ -29,12 +29,11 @@ const Hero = () => {
                                 key={index}
                                 whileHover={{
                                     scale: 1.2,
-                                    color: 'var(--primary)',
                                     textShadow: "0px 0px 8px rgb(0, 243, 255)"
                                 }}
                                 transition={{ type: "spring", stiffness: 300 }}
                                 style={{ display: 'inline-block', cursor: 'default' }}
-                                className={letter === " " ? "mr-4" : ""}
+                                className={`hero-title-letter ${letter === " " ? "mr-4" : ""}`}
                             >
                                 {letter === " " ? "\u00A0" : letter}
                             </motion.span>

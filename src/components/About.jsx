@@ -39,7 +39,7 @@ const About = () => {
                     </div>
 
                     <div>
-                        <h2 className="section-title text-left md:text-left mb-6">
+                        <h2 className="section-title about-title text-left md:text-left mb-4">
                             About <span className="text-gradient">Me</span>
                         </h2>
                         <p className="text-[var(--text-muted)] mb-8 leading-relaxed">
