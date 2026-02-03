@@ -80,13 +80,3 @@ my-portfolio/
 ├── package.json
 └── vite.config.js
 ```
-
-## 👨‍💻 Author
-
-**Satya Teja Chukka**
-- B.Tech CSE (AI & ML) - Gayatri Vidya Parishad College of Engineering
-- Expected Graduation: 2027
-
-## 📄 License
-
-This project is open source and available under the MIT License.
