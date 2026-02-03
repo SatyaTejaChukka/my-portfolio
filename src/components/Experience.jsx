@@ -146,8 +146,6 @@ const Experience = () => {
                   variants={cardVariants}
                   whileHover="hover"
                 >
-                  <span className="timeline-card-accent" aria-hidden="true" />
-
                   <div className="timeline-card-header">
                     <div className="timeline-company">
                       <Briefcase size={18} className="shrink-0" />

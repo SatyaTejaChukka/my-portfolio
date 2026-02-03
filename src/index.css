@@ -653,19 +653,6 @@ ul {
   overflow: hidden;
 }
 
-.timeline-card-accent {
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 3px;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 243, 255, 0.9),
-    rgba(189, 0, 255, 0.6)
-  );
-  border-radius: 999px;
-  opacity: 0.9;
-}
-
 .timeline-card-header {
   display: flex;
   align-items: center;

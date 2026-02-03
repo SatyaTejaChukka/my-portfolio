@@ -31,7 +31,7 @@ const About = () => {
                     <div className="profile-img-container group">
                         <div className="profile-img glass-panel overflow-hidden">
                             <img
-                                src="/profile.png"
+                                src={profileImg}
                                 alt="Satya Teja Chukka"
                                 className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                             />
