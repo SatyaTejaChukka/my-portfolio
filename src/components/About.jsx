@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import LazyImage from './LazyImage';
 import profileImg from '../assets/profile.png';
 
 const About = () => {
@@ -27,13 +28,14 @@ const About = () => {
                     transition={{ duration: 0.8 }}
                     className="about-grid"
                 >
-                    {/* Profile Image */}
+                    {/* Profile Image with Lazy Loading */}
                     <div className="profile-img-container group">
                         <div className="profile-img glass-panel overflow-hidden">
-                            <img
+                            <LazyImage
                                 src={profileImg}
                                 alt="Satya Teja Chukka"
                                 className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                                wrapperClassName="w-full h-full"
                             />
                         </div>
                     </div>

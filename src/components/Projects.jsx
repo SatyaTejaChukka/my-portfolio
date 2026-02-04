@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, Github } from 'lucide-react';
+import LazyImage from './LazyImage';
 
 /* ------------------ Animation Variants ------------------ */
 
@@ -42,9 +43,11 @@ const projectsData = [
     id: 1,
     title: 'Stroke Prediction App',
     category: 'AI',
-    image: '🧠',
+    image: '/my-portfolio/projects/stroke-prediction.png',
+    fallbackEmoji: '🧠',
     description:
-      'Machine learning application to predict stroke risk using patient health data, with model training, evaluation, and a simple backend interface.',
+      'A comprehensive machine learning application that predicts stroke risk by analyzing patient health data including age, hypertension, heart disease, glucose levels, and BMI. Features include interactive data visualization, model comparison (Random Forest, XGBoost, Logistic Regression), and a REST API built with FastAPI for real-time predictions.',
+    features: ['Risk Assessment Dashboard', 'Multiple ML Models', 'Real-time Predictions', 'Data Visualization'],
     tech: ['Python', 'Pandas', 'Numpy', 'FastAPI', 'Scikit-learn', 'Machine Learning'],
     github: 'https://github.com/SatyaTejaChukka',
     demo: 'https://stroke-prediction-app.vercel.app/',
@@ -53,9 +56,11 @@ const projectsData = [
     id: 2,
     title: 'House Price Prediction',
     category: 'AI',
-    image: '🏠',
+    image: '/my-portfolio/projects/house-price.png',
+    fallbackEmoji: '🏠',
     description:
-      'Regression-based machine learning project for predicting house prices with data preprocessing and model evaluation.',
+      'An end-to-end regression-based ML project that predicts Boston house prices using features like crime rate, number of rooms, property tax, and proximity to employment centers. Implements feature engineering, cross-validation, and hyperparameter tuning with a Flask web interface for user-friendly predictions.',
+    features: ['Feature Engineering', 'Cross-Validation', 'Interactive Web UI', 'Model Explainability'],
     tech: ['Python', 'Pandas', 'Numpy', 'Flask', 'Scikit-learn', 'Regression'],
     github: 'https://github.com/SatyaTejaChukka',
     demo: 'https://bostonhousepricing-qi28.onrender.com/',
@@ -64,34 +69,40 @@ const projectsData = [
     id: 3,
     title: 'Traffic Accident Prediction',
     category: 'AI',
-    image: '🚦',
+    image: '/my-portfolio/projects/traffic-accident.png',
+    fallbackEmoji: '🚦',
     description:
-      'Machine learning project for predicting traffic accident severity using historical accident data and feature-based analysis.',
+      'A predictive analytics system that forecasts traffic accident severity using historical data including weather conditions, road characteristics, time of day, and location. Utilizes ensemble methods and feature importance analysis to identify key risk factors for road safety improvement.',
+    features: ['Severity Classification', 'Weather Integration', 'Geospatial Analysis', 'Risk Factor Identification'],
     tech: ['Python', 'Pandas', 'FastAPI', 'Scikit-learn', 'Machine Learning'],
     github: 'https://github.com/SatyaTejaChukka/traffic-accident',
     demo: 'https://traffic-accident-prediction.vercel.app/',
   },
+
+    /* ---------- Web / Frontend Projects ---------- */
+
   {
     id: 4,
     title: 'Namaste Codes to ICD-11 Mapping',
-    category: 'AI',
-    image: '🩺',
+    category: 'Web',
+    image: '/my-portfolio/projects/namaste-icd.png',
+    fallbackEmoji: '🩺',
     description:
-      'Data processing project that maps Indian Namaste medical codes to ICD-11 standards using structured datasets and rule-based logic.',
+      'A healthcare data processing solution that maps Indian Namaste medical codes to international ICD-11 standards. Features fuzzy matching algorithms, hierarchical code traversal, and a PostgreSQL database for efficient querying. Designed to improve healthcare interoperability and standardization.',
+    features: ['Fuzzy Matching', 'Hierarchical Mapping', 'Database Integration', 'API Documentation'],
     tech: ['Python', 'FastAPI', 'PostgreSQL', 'Data Processing', 'Healthcare Data'],
     github: 'https://github.com/SatyaTejaChukka/namaste_to_icd',
     demo: 'https://namaste-to-icd11.vercel.app/',
   },
-
-  /* ---------- Web / Frontend Projects ---------- */
-
   {
     id: 5,
     title: 'Bloch Sphere Explorer',
     category: 'Web',
-    image: '⚛️',
+    image: '/my-portfolio/projects/bloch-sphere.png',
+    fallbackEmoji: '⚛️',
     description:
-      'Interactive web application for visualizing multi-qubit quantum states using Bloch spheres and basic quantum metrics.',
+      'An interactive 3D visualization tool for exploring quantum computing concepts through Bloch sphere representations. Allows users to manipulate qubit states, apply quantum gates, and observe state transformations in real-time using Three.js for rendering and Qiskit for quantum simulations.',
+    features: ['3D Visualization', 'Quantum Gate Operations', 'Multi-Qubit Support', 'Educational Tooltips'],
     tech: ['React', 'JavaScript', 'Three.js', 'Qiskit'],
     github: 'https://github.com/SatyaTejaChukka',
     demo: 'https://bloch-sphere-explorer.vercel.app/',
@@ -100,9 +111,11 @@ const projectsData = [
     id: 6,
     title: 'Interview Master',
     category: 'Web',
-    image: '🎤',
+    image: '/my-portfolio/projects/interview-master.png',
+    fallbackEmoji: '🎤',
     description:
-      'Web-based application to help users prepare for interviews by organizing questions, tracking progress, and practicing responses.',
+      'A comprehensive interview preparation platform that helps users organize questions by category, track their preparation progress, and practice with timed mock sessions. Features include customizable question banks, performance analytics, and spaced repetition for effective learning.',
+    features: ['Question Bank', 'Progress Tracking', 'Mock Interviews', 'Performance Analytics'],
     tech: ['React', 'JavaScript', 'Frontend Development'],
     github: 'https://github.com/SatyaTejaChukka/interviewmaster',
     demo: 'https://interview-master.vercel.app/',
@@ -111,9 +124,11 @@ const projectsData = [
     id: 7,
     title: 'Money Manage',
     category: 'Web',
-    image: '💰',
+    image: '/my-portfolio/projects/money-manage.png',
+    fallbackEmoji: '💰',
     description:
-      'Personal finance management application for tracking income, expenses, and basic budgeting in a simple user interface.',
+      'A full-stack personal finance application for tracking income, expenses, and budgets with visual reports. Features include transaction categorization, monthly spending analysis, budget goal setting, and data export capabilities. Built with a FastAPI backend and PostgreSQL for secure data storage.',
+    features: ['Expense Tracking', 'Budget Goals', 'Visual Reports', 'Data Export'],
     tech: ['React', 'JavaScript', 'FastAPI', 'PostgreSQL', 'Frontend Development'],
     github: 'https://github.com/SatyaTejaChukka/money_manage',
     demo: 'https://money-manage-app.vercel.app/',
@@ -193,15 +208,16 @@ const Projects = () => {
                 whileHover={{ y: -8, boxShadow: '0 12px 30px rgba(0, 243, 255, 0.15)' }}
                 whileTap={{ scale: 0.98 }}
               >
-                {/* Image / Emoji Reveal */}
-                <motion.div
-                  className="project-img text-6xl mb-6"
-                  initial={{ scale: 1 }}
-                  whileHover={{ scale: 1.15, rotate: 2 }}
-                  transition={{ type: 'spring', stiffness: 120 }}
-                >
-                  {project.image}
-                </motion.div>
+                {/* Project Image with Lazy Loading */}
+                <div className="project-img-container">
+                  <LazyImage
+                    src={project.image}
+                    alt={`${project.title} screenshot`}
+                    className="project-screenshot"
+                    fallbackEmoji={project.fallbackEmoji}
+                    wrapperClassName="project-img-wrapper"
+                  />
+                </div>
 
                 {/* Base Content */}
                 <div className="project-info">
@@ -213,9 +229,26 @@ const Projects = () => {
                     {project.title}
                   </h3>
 
-                  <p className="text-[var(--text-muted)] text-sm">
-                    {project.description}
-                  </p>
+                  <div className="project-description-wrapper">
+                    <p className="text-[var(--text-muted)] text-sm project-description">
+                      {project.description}
+                    </p>
+                    <span className="project-description-hint">Hover to read more</span>
+                    <div className="project-description-full">
+                      {project.description}
+                    </div>
+                  </div>
+
+                  {/* Key Features */}
+                  {project.features && (
+                    <div className="project-features">
+                      {project.features.map((feature) => (
+                        <span key={feature} className="project-feature-tag">
+                          ✓ {feature}
+                        </span>
+                      ))}
+                    </div>
+                  )}
 
                   <div className="project-tech-list">
                     {project.tech.map((t) => (
