@@ -15,7 +15,8 @@ const gridVariants = {
   },
 };
 
-const cardVariants = {
+// Desktop: animate on scroll with opacity
+const cardVariantsDesktop = {
   hidden: {
     opacity: 0,
     y: 30,
@@ -30,6 +31,18 @@ const cardVariants = {
       stiffness: 120,
       damping: 14,
     },
+  },
+};
+
+// Mobile: always visible, just slight y animation
+const cardVariantsMobile = {
+  hidden: {
+    opacity: 1,
+    y: 0,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
   },
 };
 
@@ -188,25 +201,21 @@ const Projects = () => {
         </div>
 
         {/* Projects Grid */}
-        <motion.div
-          key={filter}
-          layout
-          className="projects-grid"
-          variants={gridVariants}
-          initial="hidden"
-          animate={isDesktop ? "hidden" : "visible"}
-          whileInView={isDesktop ? "visible" : undefined}
-          viewport={isDesktop ? { once: true, margin: "0px 0px -100px 0px" } : undefined}
-        >
-          <AnimatePresence>
+        {isDesktop ? (
+          // Desktop: Animate on scroll
+          <motion.div
+            key={filter}
+            className="projects-grid"
+            variants={gridVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+          >
             {filteredProjects.map((project) => (
               <motion.div
                 key={project.id}
-                layout
-                variants={cardVariants}
-                className="relative project-card glass-panel group overflow-hidden"
-                whileHover={{ y: -8, boxShadow: '0 12px 30px rgba(0, 243, 255, 0.15)' }}
-                whileTap={{ scale: 0.98 }}
+                variants={cardVariantsDesktop}
+                className="relative project-card glass-panel group"
               >
                 {/* Project Image with Lazy Loading */}
                 <div className="project-img-container">
@@ -260,38 +269,121 @@ const Projects = () => {
 
                   <div className="project-actions">
                     {project.demo && (
-                      <motion.a
+                      <a
                         href={project.demo}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="project-action-btn"
                         title="View Live Demo"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
                       >
                         <ExternalLink size={16} />
                         Live
-                      </motion.a>
+                      </a>
                     )}
 
-                    <motion.a
+                    <a
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="project-action-btn"
                       title="View Source Code"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
                     >
                       <Github size={16} />
                       Code
-                    </motion.a>
+                    </a>
                   </div>
                 </div>
               </motion.div>
             ))}
-          </AnimatePresence>
-        </motion.div>
+          </motion.div>
+        ) : (
+          // Mobile: Always visible, no scroll animation
+          <div key={filter} className="projects-grid">
+            {filteredProjects.map((project) => (
+              <div
+                key={project.id}
+                className="relative project-card glass-panel group"
+              >
+                {/* Project Image with Lazy Loading */}
+                <div className="project-img-container">
+                  <LazyImage
+                    src={project.image}
+                    alt={`${project.title} screenshot`}
+                    className="project-screenshot"
+                    fallbackEmoji={project.fallbackEmoji}
+                    wrapperClassName="project-img-wrapper"
+                  />
+                </div>
+
+                {/* Base Content */}
+                <div className="project-info">
+                  <span className="text-xs font-bold text-[var(--primary)] mb-2 block">
+                    {project.category.toUpperCase()}
+                  </span>
+
+                  <h3 className="project-title">
+                    {project.title}
+                  </h3>
+
+                  <div className="project-description-wrapper">
+                    <p className="text-[var(--text-muted)] text-sm project-description">
+                      {project.description}
+                    </p>
+                    <span className="project-description-hint">Tap to read more</span>
+                    <div className="project-description-full">
+                      {project.description}
+                    </div>
+                  </div>
+
+                  {/* Key Features */}
+                  {project.features && (
+                    <div className="project-features">
+                      {project.features.map((feature) => (
+                        <span key={feature} className="project-feature-tag">
+                          ✓ {feature}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="project-tech-list">
+                    {project.tech.map((t) => (
+                      <span key={t} className="project-tech-pill">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="project-actions">
+                    {project.demo && (
+                      <a
+                        href={project.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="project-action-btn"
+                        title="View Live Demo"
+                      >
+                        <ExternalLink size={16} />
+                        Live
+                      </a>
+                    )}
+
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="project-action-btn"
+                      title="View Source Code"
+                    >
+                      <Github size={16} />
+                      Code
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

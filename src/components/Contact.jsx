@@ -103,7 +103,7 @@ const Contact = () => {
                         {/* Resume Button */}
                         <div className="mt-auto pt-12 border-t-2 border-[var(--glass-border)] flex justify-center" style={{ marginTop: '50px' }}>
                             <motion.a
-                                href="/Satya_Teja_Latest_Resume.pdf"
+                                href={`${import.meta.env.BASE_URL}Satya_Teja_Latest_Resume.pdf`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="resume-button-wrapper"

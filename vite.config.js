@@ -9,13 +9,19 @@ export default defineConfig({
     // Enable code splitting
     rollupOptions: {
       output: {
-        manualChunks: {
+        manualChunks: (id) => {
           // Vendor chunk for React
-          'vendor-react': ['react', 'react-dom'],
+          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
+            return 'vendor-react';
+          }
           // Animation libraries
-          'vendor-animation': ['framer-motion'],
+          if (id.includes('node_modules/framer-motion')) {
+            return 'vendor-animation';
+          }
           // Icons
-          'vendor-icons': ['lucide-react'],
+          if (id.includes('node_modules/lucide-react')) {
+            return 'vendor-icons';
+          }
         },
       },
     },

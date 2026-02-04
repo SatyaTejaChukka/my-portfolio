@@ -24,6 +24,16 @@ function App() {
     registerServiceWorker();
   }, []);
 
+  // Scroll to top on page load/reload
+  useEffect(() => {
+    // Disable browser's scroll restoration
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    // Scroll to top
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <ErrorBoundary>
       <div className="app">

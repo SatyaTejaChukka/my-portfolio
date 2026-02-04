@@ -11,6 +11,8 @@ const LazyImage = ({
   placeholderClassName = '',
   wrapperClassName = '',
   fallbackEmoji = '🖼️',
+  width,
+  height,
   ...props 
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -27,7 +29,7 @@ const LazyImage = ({
         }
       },
       {
-        rootMargin: '100px 0px', // Start loading 100px before entering viewport
+        rootMargin: '50px 0px', // Start loading 50px before entering viewport
         threshold: 0.01,
       }
     );
@@ -61,14 +63,15 @@ const LazyImage = ({
           style={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(135deg, var(--bg-card) 0%, var(--glass-border) 100%)',
-            animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            background: 'linear-gradient(135deg, var(--bg-card) 0%, rgba(0, 243, 255, 0.05) 100%)',
+            animation: 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            borderRadius: 'inherit',
           }}
         >
-          <span className="lazy-image-loading-emoji" style={{ fontSize: '3rem', opacity: 0.5 }}>
+          <span className="lazy-image-loading-emoji" style={{ fontSize: '2rem', opacity: 0.4 }}>
             {fallbackEmoji}
           </span>
         </div>
@@ -85,9 +88,10 @@ const LazyImage = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            borderRadius: 'inherit',
           }}
         >
-          <span style={{ fontSize: '4rem' }}>{fallbackEmoji}</span>
+          <span style={{ fontSize: '3rem' }}>{fallbackEmoji}</span>
         </div>
       )}
       
@@ -99,15 +103,19 @@ const LazyImage = ({
           className={className}
           onLoad={handleLoad}
           onError={handleError}
+          width={width}
+          height={height}
           style={{
             opacity: isLoaded ? 1 : 0,
-            transition: 'opacity 0.4s ease-in-out',
+            transition: 'opacity 0.6s ease-in-out',
             width: '100%',
             height: '100%',
             objectFit: 'cover',
+            borderRadius: 'inherit',
           }}
-          loading="lazy"
+          loading="eager"
           decoding="async"
+          fetchPriority="low"
           {...props}
         />
       )}
