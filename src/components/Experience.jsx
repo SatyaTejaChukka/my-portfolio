@@ -5,28 +5,44 @@ import { Briefcase, Calendar } from 'lucide-react';
 const experiences = [
   {
     id: 1,
+    role: 'Schooling',
+    company: 'Gnanodaya R.C.M High School',
+    period: '2014 - 2021',
+    description:
+      'Completed primary and secondary education with a strong foundation in academics.',
+  },
+  {
+    id: 2,
+    role: 'Intermediate - MPC',
+    company: 'Sasi Junior College',
+    period: '2021 - 2023',
+    description:
+      'Completed intermediate education with Mathematics, Physics, and Chemistry as core subjects.',
+  },
+  {
+    id: 3,
     role: 'B.Tech in CSE (AI & ML)',
     company: 'Gayatri Vidya Parishad College of Engineering',
-    period: 'Expected 2027',
+    period: '2023 - 2027 (Expected)',
     description:
       'CGPA: 8.79. Coursework: DSA, Computer Networks, OS, DBMS, OOP, ML, Probability & Statistics.',
   },
   {
-    id: 2,
+    id: 4,
     role: 'Member',
     company: 'Rotaract Club',
     period: 'Aug 2024 - Present',
     description:
       'Organized and participated in multiple community events, building teamwork and leadership skills.',
   },
-  {
-    id: 3,
-    role: 'Certifications',
-    company: 'IBM & Coursera',
-    period: '2024',
-    description:
-      'Python Basics for Data Science (IBM), Supervised Machine Learning (Coursera).',
-  },
+  // {
+  //   id: 5,
+  //   role: 'Certifications',
+  //   company: 'IBM & Coursera',
+  //   period: '2024',
+  //   description:
+  //     'Python Basics for Data Science (IBM), Supervised Machine Learning (Coursera).',
+  // },
 ];
 
 /* ------------------ Variants ------------------ */
