@@ -1,11 +1,7 @@
 import React from 'react';
-import { ArrowUp, Github, Linkedin } from 'lucide-react';
+import { Github, Linkedin } from 'lucide-react';
 
 const Footer = () => {
-    const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
     return (
         <footer className="footer">
             <div className="container footer-content">
@@ -26,14 +22,6 @@ const Footer = () => {
                         </svg>
                     </a>
                 </div>
-
-                <button
-                    onClick={scrollToTop}
-                    className="scroll-top-btn order-3"
-                    aria-label="Scroll to top"
-                >
-                    <ArrowUp size={24} strokeWidth={2} />
-                </button>
             </div>
         </footer>
     );

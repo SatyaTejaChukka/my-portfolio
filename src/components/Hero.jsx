@@ -5,7 +5,6 @@ import { ArrowDown } from 'lucide-react';
 const Hero = () => {
     const name = "Satya Teja Chukka";
     const letters = name.split("");
-
     return (
         <section id="home" className="hero">
             {/* Background Elements */}

@@ -51,6 +51,18 @@
   
   <!-- Fonts with display=swap for better performance -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Prevent skip link flash before CSS loads -->
+  <style>
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 16px;
+    }
+    .skip-link:focus {
+      top: 16px;
+    }
+  </style>
   
   <!-- PWA: Theme color for mobile browsers -->
   <meta name="theme-color" content="#0a0a0a" />
@@ -78,6 +90,7 @@
 </head>
 
 <body>
+  <a href="#main-content" class="skip-link">Skip to content</a>
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
 </body>

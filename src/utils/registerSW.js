@@ -52,13 +52,16 @@ export const isOffline = () => !navigator.onLine;
  * Listen for online/offline status changes
  */
 export const onOnlineStatusChange = (callback) => {
-  window.addEventListener('online', () => callback(true));
-  window.addEventListener('offline', () => callback(false));
+  const handleOnline = () => callback(true);
+  const handleOffline = () => callback(false);
+
+  window.addEventListener('online', handleOnline);
+  window.addEventListener('offline', handleOffline);
   
   // Return cleanup function
   return () => {
-    window.removeEventListener('online', () => callback(true));
-    window.removeEventListener('offline', () => callback(false));
+    window.removeEventListener('online', handleOnline);
+    window.removeEventListener('offline', handleOffline);
   };
 };
 

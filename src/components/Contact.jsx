@@ -1,6 +1,45 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Send, Mail, Phone, MapPin, User, MessageCircle, MousePointer2 } from 'lucide-react';
+import { Send, Mail, Phone, User, MousePointer2, CheckCircle } from 'lucide-react';
+
+const EMAIL_ADDRESS = 'satyateja671@gmail.com';
+const RESUME_URL = `${import.meta.env.BASE_URL}Satya_Teja_Latest_Resume.pdf`;
+
+const validateEmail = (value) => {
+    const trimmed = value.trim();
+    if (!trimmed) {
+        return 'Email is required.';
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmed)) {
+        return 'Enter a valid email address.';
+    }
+    return '';
+};
+
+const validateField = (name, value) => {
+    const trimmed = value.trim();
+    if (name === 'name') {
+        if (!trimmed) {
+            return 'Name is required.';
+        }
+        if (trimmed.length < 2) {
+            return 'Name must be at least 2 characters.';
+        }
+    }
+    if (name === 'email') {
+        return validateEmail(value);
+    }
+    if (name === 'message') {
+        if (!trimmed) {
+            return 'Message is required.';
+        }
+        if (trimmed.length < 10) {
+            return 'Message should be at least 10 characters.';
+        }
+    }
+    return '';
+};
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -9,13 +48,56 @@ const Contact = () => {
         message: '',
     });
     const [status, setStatus] = useState('');
+    const [errors, setErrors] = useState({});
+    const [touched, setTouched] = useState({});
+    const [copied, setCopied] = useState(false);
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+        if (touched[name]) {
+            setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
+        }
+        if (status === 'invalid') {
+            setStatus('');
+        }
+    };
+
+    const handleBlur = (e) => {
+        const { name, value } = e.target;
+        setTouched((prev) => ({ ...prev, [name]: true }));
+        setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
+    };
+
+    const validateForm = () => {
+        const nextErrors = {
+            name: validateField('name', formData.name),
+            email: validateField('email', formData.email),
+            message: validateField('message', formData.message),
+        };
+        setErrors(nextErrors);
+        setTouched({ name: true, email: true, message: true });
+        return !Object.values(nextErrors).some(Boolean);
+    };
+
+    const handleCopyEmail = async () => {
+        try {
+            await navigator.clipboard.writeText(EMAIL_ADDRESS);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        } catch (error) {
+            console.error('Failed to copy email:', error);
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setStatus('');
+
+        if (!validateForm()) {
+            setStatus('invalid');
+            return;
+        }
         setStatus('sending');
 
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVLDlMZIOcNqq1NzD323h_HGgLjCya0x6y3QOu1YEg0xqU4P3DN25msSqOgCHxEAlP/exec";
@@ -32,6 +114,8 @@ const Contact = () => {
 
             setStatus('success');
             setFormData({ name: '', email: '', message: '' });
+            setErrors({});
+            setTouched({});
             setTimeout(() => setStatus(''), 3000);
         } catch (error) {
             console.error("Error:", error);
@@ -57,13 +141,26 @@ const Contact = () => {
                         </p>
 
                         <div className="space-y-6">
-                            <a href="mailto:satyateja671@gmail.com" className="contact-item group">
+                            <a href={`mailto:${EMAIL_ADDRESS}`} className="contact-item group">
                                 <div className="p-2">
                                     <Mail size={24} className="text-[var(--primary)] group-hover:scale-110 transition-transform" />
                                 </div>
                                 <div>
                                     <h4 className="font-bold">Email</h4>
-                                    <p className="text-[var(--text-muted)] group-hover:text-[var(--primary)] transition-colors">satyateja671@gmail.com</p>
+                                    <p className="text-[var(--text-muted)] group-hover:text-[var(--primary)] transition-colors">{EMAIL_ADDRESS}</p>
+                                </div>
+                                <div className="contact-inline-actions">
+                                    <button
+                                        type="button"
+                                        className="copy-email-btn"
+                                        onClick={(event) => {
+                                            event.preventDefault();
+                                            handleCopyEmail();
+                                        }}
+                                        aria-label="Copy email address"
+                                    >
+                                        Copy
+                                    </button>
                                 </div>
                                 <span className="contact-click" aria-hidden="true">
                                     <MousePointer2 size={18} />
@@ -103,7 +200,7 @@ const Contact = () => {
                         {/* Resume Button */}
                         <div className="mt-auto pt-12 border-t-2 border-[var(--glass-border)] flex justify-center" style={{ marginTop: '50px' }}>
                             <motion.a
-                                href={`${import.meta.env.BASE_URL}Satya_Teja_Latest_Resume.pdf`}
+                                href={RESUME_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="resume-button-wrapper"
@@ -138,48 +235,75 @@ const Contact = () => {
                     >
                         <form onSubmit={handleSubmit} className="contact-form">
                             <div className="form-group">
-                                <label className="form-label">Name</label>
+                                <label className="form-label" htmlFor="contact-name">Name</label>
                                 <div className="input-wrapper">
                                     <User size={20} className="input-icon" />
                                     <input
                                         type="text"
                                         name="name"
+                                        id="contact-name"
                                         value={formData.name}
                                         onChange={handleChange}
+                                        onBlur={handleBlur}
                                         required
-                                        className="form-input"
+                                        className={`form-input ${errors.name ? 'input-error' : ''}`}
                                         placeholder="Your Name"
+                                        aria-invalid={Boolean(errors.name)}
+                                        aria-describedby={errors.name ? 'contact-name-error' : undefined}
                                     />
                                 </div>
+                                {errors.name && (
+                                    <p id="contact-name-error" className="form-error" role="alert">
+                                        {errors.name}
+                                    </p>
+                                )}
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label">Email</label>
+                                <label className="form-label" htmlFor="contact-email">Email</label>
                                 <div className="input-wrapper">
                                     <Mail size={20} className="input-icon" />
                                     <input
                                         type="email"
                                         name="email"
+                                        id="contact-email"
                                         value={formData.email}
                                         onChange={handleChange}
+                                        onBlur={handleBlur}
                                         required
-                                        className="form-input"
+                                        className={`form-input ${errors.email ? 'input-error' : ''}`}
                                         placeholder="your@email.com"
+                                        aria-invalid={Boolean(errors.email)}
+                                        aria-describedby={errors.email ? 'contact-email-error' : undefined}
                                     />
                                 </div>
+                                {errors.email && (
+                                    <p id="contact-email-error" className="form-error" role="alert">
+                                        {errors.email}
+                                    </p>
+                                )}
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label">Message</label>
+                                <label className="form-label" htmlFor="contact-message">Message</label>
                                 <textarea
                                     name="message"
+                                    id="contact-message"
                                     value={formData.message}
                                     onChange={handleChange}
+                                    onBlur={handleBlur}
                                     required
                                     rows="4"
-                                    className="form-textarea"
+                                    className={`form-textarea ${errors.message ? 'input-error' : ''}`}
                                     placeholder="Your message..."
+                                    aria-invalid={Boolean(errors.message)}
+                                    aria-describedby={errors.message ? 'contact-message-error' : undefined}
                                 ></textarea>
+                                {errors.message && (
+                                    <p id="contact-message-error" className="form-error" role="alert">
+                                        {errors.message}
+                                    </p>
+                                )}
                             </div>
 
                             <button
@@ -195,15 +319,39 @@ const Contact = () => {
                                 )}
                             </button>
 
-                            {status === 'success' && (
-                                <p className="text-green-400 text-center">Message sent successfully!</p>
-                            )}
-                            {status === 'error' && (
-                                <p className="text-red-400 text-center">Failed to send message. Please try again.</p>
-                            )}
+                            <div
+                                className="form-status"
+                                role={status === 'error' || status === 'invalid' ? 'alert' : 'status'}
+                                aria-live={status === 'error' || status === 'invalid' ? 'assertive' : 'polite'}
+                            >
+                                {status === 'success' && (
+                                    <div className="form-success">
+                                        <CheckCircle size={18} />
+                                        <span>Message sent successfully!</span>
+                                        <div className="confetti" aria-hidden="true">
+                                            {Array.from({ length: 12 }).map((_, index) => (
+                                                <span key={index} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                                {status === 'error' && (
+                                    <p className="text-red-400 text-center">Failed to send message. Please try again.</p>
+                                )}
+                                {status === 'invalid' && (
+                                    <p className="text-amber-400 text-center">Please fix the highlighted fields.</p>
+                                )}
+                            </div>
                         </form>
                     </motion.div>
                 </div>
+            </div>
+            <div
+                className={`copy-toast ${copied ? 'show' : ''}`}
+                role="status"
+                aria-live="polite"
+            >
+                Email copied to clipboard
             </div>
         </section>
     );

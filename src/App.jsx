@@ -1,9 +1,11 @@
-import React, { Suspense, lazy, useEffect } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
+import SectionProgress from './components/SectionProgress';
 import ErrorBoundary, { SectionErrorBoundary } from './components/ErrorBoundary';
-import { registerServiceWorker } from './utils/registerSW';
+import { registerServiceWorker, isOffline, onOnlineStatusChange } from './utils/registerSW';
 
 // Lazy load components for code splitting
 const About = lazy(() => import('./components/About'));
@@ -19,9 +21,16 @@ const SectionLoader = () => (
 );
 
 function App() {
+  const [isOnline, setIsOnline] = useState(!isOffline());
+
   // Register service worker on mount
   useEffect(() => {
     registerServiceWorker();
+  }, []);
+
+  useEffect(() => {
+    const cleanup = onOnlineStatusChange(setIsOnline);
+    return cleanup;
   }, []);
 
   // Scroll to top on page load/reload
@@ -38,7 +47,7 @@ function App() {
     <ErrorBoundary>
       <div className="app">
         <Navbar />
-        <main>
+        <main id="main-content" tabIndex="-1">
           <SectionErrorBoundary sectionName="Hero">
             <Hero />
           </SectionErrorBoundary>
@@ -64,6 +73,13 @@ function App() {
           </SectionErrorBoundary>
         </main>
         <Footer />
+        <SectionProgress />
+        <ScrollToTop />
+        {!isOnline && (
+          <div className="offline-indicator" role="status" aria-live="polite">
+            You&apos;re offline. Some features may be unavailable.
+          </div>
+        )}
       </div>
     </ErrorBoundary>
   );
