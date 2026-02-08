@@ -51,6 +51,18 @@
   
   <!-- Fonts with display=swap for better performance -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Prevent skip link flash before CSS loads -->
+  <style>
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 16px;
+    }
+    .skip-link:focus {
+      top: 16px;
+    }
+  </style>
   
   <!-- PWA: Theme color for mobile browsers -->
   <meta name="theme-color" content="#0a0a0a" />
@@ -75,15 +87,16 @@
     "knowsAbout": ["Python", "Machine Learning", "FastAPI", "React", "Data Science", "AI"]
   }
   </script>
-  <script type="module" crossorigin src="/my-portfolio/assets/index-DkKEpa8P.js"></script>
+  <script type="module" crossorigin src="/my-portfolio/assets/index-BDrD5q18.js"></script>
   <link rel="modulepreload" crossorigin href="/my-portfolio/assets/rolldown-runtime-BBZsY560.js">
-  <link rel="modulepreload" crossorigin href="/my-portfolio/assets/vendor-animation-CWY0jyOX.js">
-  <link rel="modulepreload" crossorigin href="/my-portfolio/assets/vendor-icons-B-gc_DuX.js">
-  <link rel="modulepreload" crossorigin href="/my-portfolio/assets/vendor-react-BrPPKxq0.js">
-  <link rel="stylesheet" crossorigin href="/my-portfolio/assets/index-qvE4dxaq.css">
+  <link rel="modulepreload" crossorigin href="/my-portfolio/assets/vendor-animation-BtmQeINd.js">
+  <link rel="modulepreload" crossorigin href="/my-portfolio/assets/vendor-icons-DpekK8e6.js">
+  <link rel="modulepreload" crossorigin href="/my-portfolio/assets/vendor-react-RHhcHMsg.js">
+  <link rel="stylesheet" crossorigin href="/my-portfolio/assets/index-DjHI6LiD.css">
 </head>
 
 <body>
+  <a href="#main-content" class="skip-link">Skip to content</a>
   <div id="root"></div>
 </body>
 
