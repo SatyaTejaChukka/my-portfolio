@@ -1,0 +1,6 @@
+i think the name hover effect on hero section and also the custom cursor is also nice for the desktop version. but what are special for mobile users. they cant experience all these and how to make them experience or are there any unique ideas for mobile users
+
+
+2. Gyroscope Parallax (replaces cursor spotlight) Tilt the phone → the hero background gradient and floating orbs shift subtly in the direction of tilt using DeviceOrientationEvent. Gives the page a "window into a 3D world" feeling — unique to mobile.
+
+4. Button Tap Pulse (replaces hover effects) On tap, buttons emit a quick pulse/flash outward — like a neon flicker. Uses CSS :active + keyframe animation, so the feedback is instant and physical-feeling.

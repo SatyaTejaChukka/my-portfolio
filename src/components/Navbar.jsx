@@ -160,8 +160,8 @@ const Navbar = () => {
                     SatyaTeja
                 </a>
 
-                {/* Desktop Menu */}
-                <div className="nav-links hidden md:flex">
+                {/* Desktop Nav Links + Theme Toggle */}
+                <div className="nav-links">
                     {navLinks.map((link) => {
                         const isActive = activeSection === link.href.replace('#', '');
                         return (
@@ -183,6 +183,7 @@ const Navbar = () => {
                             </motion.a>
                         );
                     })}
+                    {/* Theme toggle lives here — hidden with nav-links on mobile */}
                     <motion.button
                         onClick={toggleTheme}
                         whileTap={{ scale: 0.9 }}
@@ -204,7 +205,8 @@ const Navbar = () => {
                     </motion.button>
                 </div>
 
-                <div className="nav-right hidden md:flex">
+                {/* Resume button — desktop only (hidden by CSS on mobile) */}
+                <div className="nav-right">
                 <motion.a
                     href={`${import.meta.env.BASE_URL}Satya_Teja_Latest_Resume.pdf`}
                     target="_blank"
@@ -230,31 +232,34 @@ const Navbar = () => {
                 </motion.a>
                 </div>
 
-                {/* Mobile Menu Button */}
-                <div className="md:hidden flex items-center">
-                    <button onClick={() => setIsOpen(!isOpen)} className="mobile-menu-btn">
-                        {isOpen ? <X size={24} /> : <Menu size={24} />}
-                    </button>
-                </div>
+                {/* Mobile Menu Button — shown by CSS on mobile only */}
+                <button onClick={() => setIsOpen(!isOpen)} className="mobile-menu-btn" aria-label="Toggle menu">
+                    {isOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
             </div>
 
             {/* Mobile Menu */}
             {isOpen && (
                 <motion.div
-                    initial={{ opacity: 0, y: -12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="md:hidden absolute top-full left-0 w-full mobile-menu"
+                    initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                    transition={{ duration: 0.2, ease: 'easeOut' }}
+                    className="mobile-menu"
                 >
-                    <div className="mobile-menu-panel glass-panel">
+                    <div className="mobile-menu-panel">
+
+                        {/* Header */}
                         <div className="mobile-menu-header">
-                            <span>Menu</span>
+                            <span className="mobile-menu-brand">
+                                <span className="text-gradient">SatyaTeja</span>
+                            </span>
                             <button
                                 type="button"
                                 onClick={toggleTheme}
                                 className="theme-toggle"
                                 aria-label={`Theme: ${themeLabel}. Click to change`}
                                 title={`Theme: ${themeLabel}`}
-                                data-tooltip={`Theme: ${themeLabel}`}
                             >
                                 {resolvedTheme === 'dark' ? (
                                     <Sun size={18} className="text-yellow-400" />
@@ -269,8 +274,12 @@ const Navbar = () => {
                             </button>
                         </div>
 
-                        <div className="mobile-menu-links">
-                            {navLinks.map((link) => {
+                        {/* Divider */}
+                        <div className="mobile-menu-divider" />
+
+                        {/* Nav Links */}
+                        <nav className="mobile-menu-links" aria-label="Mobile navigation">
+                            {navLinks.map((link, i) => {
                                 const isActive = activeSection === link.href.replace('#', '');
                                 return (
                                     <motion.a
@@ -279,17 +288,36 @@ const Navbar = () => {
                                         className={`mobile-menu-link ${isActive ? 'active' : ''}`}
                                         aria-current={isActive ? 'page' : undefined}
                                         onClick={() => setIsOpen(false)}
-                                        whileHover={{ x: 6 }}
-                                    whileTap={{ scale: 0.98 }}
-                                >
-                                    <span>{link.name}</span>
-                                        <span className="mobile-menu-arrow" aria-hidden="true">
-                                            <ChevronRight size={16} />
-                                        </span>
-                                </motion.a>
-                            );
+                                        initial={{ opacity: 0, x: -12 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: i * 0.05, duration: 0.2 }}
+                                        whileTap={{ scale: 0.97 }}
+                                    >
+                                        <span className="mobile-menu-link-text">{link.name}</span>
+                                        <ChevronRight size={15} className="mobile-menu-arrow" />
+                                    </motion.a>
+                                );
                             })}
-                        </div>
+                        </nav>
+
+                        {/* Divider */}
+                        <div className="mobile-menu-divider" />
+
+                        {/* Resume CTA */}
+                        <a
+                            href={`${import.meta.env.BASE_URL}Satya_Teja_Latest_Resume.pdf`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mobile-menu-resume"
+                            onClick={() => setIsOpen(false)}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                            </svg>
+                            View Resume
+                        </a>
+
                     </div>
                 </motion.div>
             )}
@@ -298,3 +326,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
