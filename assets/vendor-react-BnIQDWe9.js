@@ -1,4 +1,4 @@
-import{a as e,t}from"./rolldown-runtime-BBZsY560.js";import{c as n}from"./vendor-animation-BtmQeINd.js";
+import{a as e,t}from"./rolldown-runtime-BBZsY560.js";import{l as n}from"./vendor-animation-CevRUoew.js";
 /**
 * @license React
 * scheduler.production.js
