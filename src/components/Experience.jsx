@@ -7,6 +7,8 @@ import {
   useSpring,
 } from 'framer-motion';
 import { Briefcase, Calendar } from 'lucide-react';
+import SpotlightCard from './SpotlightCard';
+
 
 /* ------------------ Data ------------------ */
 
@@ -112,8 +114,8 @@ const cardVariants = {
   },
   hover: {
     boxShadow: '0 18px 50px rgba(0, 243, 255, 0.25)',
-    y: -8,
   },
+
 };
 
 /* ------------------ Timeline Item ------------------ */
@@ -181,28 +183,31 @@ const TimelineItem = ({
           y: reduceMotion ? 0 : parallaxY,
         }}
       >
-        <motion.div
-          className="glass-panel p-6 rounded-xl timeline-card"
-          variants={cardVariants}
-          initial="hidden"
-          whileInView="visible"
-          whileHover="hover"
-          viewport={{ amount: 0.55 }}
-        >
-          <div className="timeline-card-header">
-            <div className="timeline-company">
-              <Briefcase size={18} />
-              <span>{exp.company}</span>
+        <SpotlightCard color="rgba(189, 0, 255, 0.12)" className="timeline-card-spotlight">
+          <motion.div
+            className="glass-panel p-6 rounded-xl timeline-card"
+            variants={cardVariants}
+            initial="hidden"
+            whileInView="visible"
+            whileHover="hover"
+            viewport={{ amount: 0.55 }}
+          >
+            <div className="timeline-card-header">
+              <div className="timeline-company">
+                <Briefcase size={18} />
+                <span>{exp.company}</span>
+              </div>
+              <div className="timeline-period">
+                <Calendar size={14} />
+                <span>{exp.period}</span>
+              </div>
             </div>
-            <div className="timeline-period">
-              <Calendar size={14} />
-              <span>{exp.period}</span>
-            </div>
-          </div>
 
-          <h3 className="timeline-role">{exp.role}</h3>
-          <p className="timeline-description">{exp.description}</p>
-        </motion.div>
+            <h3 className="timeline-role">{exp.role}</h3>
+            <p className="timeline-description">{exp.description}</p>
+          </motion.div>
+        </SpotlightCard>
+
       </motion.div>
     </motion.article>
   );

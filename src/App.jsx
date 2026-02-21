@@ -6,6 +6,7 @@ import ScrollToTop from './components/ScrollToTop';
 import SectionProgress from './components/SectionProgress';
 import ErrorBoundary, { SectionErrorBoundary } from './components/ErrorBoundary';
 import { registerServiceWorker, isOffline, onOnlineStatusChange } from './utils/registerSW';
+import Cursor from './components/Cursor';
 
 // Lazy load components for code splitting
 const About = lazy(() => import('./components/About'));
@@ -46,6 +47,7 @@ function App() {
   return (
     <ErrorBoundary>
       <div className="app">
+        <Cursor />
         <Navbar />
         <main id="main-content" tabIndex="-1">
           <SectionErrorBoundary sectionName="Hero">

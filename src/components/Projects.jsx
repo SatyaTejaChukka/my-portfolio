@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, Github, X } from 'lucide-react';
 import LazyImage from './LazyImage';
+import SpotlightCard from './SpotlightCard';
+
 
 /* ------------------ Animation Variants ------------------ */
 
@@ -374,10 +376,10 @@ const Projects = () => {
             viewport={{ once: true, margin: "0px 0px -100px 0px" }}
           >
             {filteredProjects.map((project) => (
+              <SpotlightCard key={project.id} className="relative project-card glass-panel group">
               <motion.div
-                key={project.id}
                 variants={cardVariantsDesktop}
-                className="relative project-card glass-panel group"
+                className="h-full"
               >
                 {/* Project Image with Lazy Loading */}
                 <div className="project-img-container">
@@ -466,15 +468,16 @@ const Projects = () => {
                   </div>
                 </div>
               </motion.div>
+              </SpotlightCard>
             ))}
           </motion.div>
         ) : (
           // Mobile: Always visible, no scroll animation
           <div key={filter} className="projects-grid">
             {filteredProjects.map((project) => (
+              <SpotlightCard key={project.id} className="relative project-card glass-panel group">
               <div
-                key={project.id}
-                className="relative project-card glass-panel group"
+                className="h-full"
               >
                 {/* Project Image with Lazy Loading */}
                 <div className="project-img-container">
@@ -563,6 +566,7 @@ const Projects = () => {
                   </div>
                 </div>
               </div>
+              </SpotlightCard>
             ))}
           </div>
         )}
