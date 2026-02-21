@@ -382,6 +382,8 @@ const Projects = () => {
                 {/* Project Image with Lazy Loading */}
                 <div className="project-img-container">
                   <LazyImage
+                    width={600}
+                    height={800}
                     src={project.image}
                     alt={`${project.title} screenshot`}
                     className="project-screenshot"
@@ -477,6 +479,8 @@ const Projects = () => {
                 {/* Project Image with Lazy Loading */}
                 <div className="project-img-container">
                   <LazyImage
+                    width={600}
+                    height={800}
                     src={project.image}
                     alt={`${project.title} screenshot`}
                     className="project-screenshot"

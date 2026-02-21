@@ -1,9 +1,17 @@
 import React, { useState, useRef } from 'react';
-import { motion, useReducedMotion, useScroll, useTransform, useSpring } from 'framer-motion';
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+  useSpring,
+} from 'framer-motion';
 import { Briefcase, Calendar } from 'lucide-react';
 
+/* ------------------ Data ------------------ */
+
 const experiences = [
-    {
+  {
     id: 1,
     role: 'B.Tech in CSE (AI & ML)',
     company: 'Gayatri Vidya Parishad College of Engineering',
@@ -11,7 +19,7 @@ const experiences = [
     description:
       'CGPA: 8.79. Coursework: DSA, Computer Networks, OS, DBMS, OOP, ML, Probability & Statistics.',
   },
-    {
+  {
     id: 2,
     role: 'Intermediate - MPC',
     company: 'Sasi Junior College',
@@ -49,12 +57,12 @@ const experiences = [
 
 /* ------------------ Variants ------------------ */
 
+/* ------------------ Variants ------------------ */
+
 const containerVariants = {
   hidden: {},
   visible: {
-    transition: {
-      staggerChildren: 0.15,
-    },
+    transition: { staggerChildren: 0.15 },
   },
 };
 
@@ -85,7 +93,6 @@ const dotVariants = {
   active: {
     scale: 1.15,
     boxShadow: '0 0 30px rgba(0, 243, 255, 0.6)',
-    transition: { type: 'spring', stiffness: 180 },
   },
   hover: {
     scale: 1.3,
@@ -97,7 +104,6 @@ const cardVariants = {
   hidden: {
     opacity: 0.75,
     filter: 'blur(6px)',
-    transition: { duration: 0.4, ease: 'easeOut' },
   },
   visible: {
     opacity: 1,
@@ -106,87 +112,86 @@ const cardVariants = {
   },
   hover: {
     boxShadow: '0 18px 50px rgba(0, 243, 255, 0.25)',
-    borderColor: 'var(--primary)',
     y: -8,
   },
 };
 
-const TimelineItem = ({ exp, index, isActive, onEnter, hoveredId, setHoveredId, reduceMotion }) => {
+/* ------------------ Timeline Item ------------------ */
+
+const TimelineItem = ({
+  exp,
+  index,
+  isActive,
+  onEnter,
+  hoveredId,
+  setHoveredId,
+  reduceMotion,
+}) => {
   const itemRef = useRef(null);
-  const { scrollYProgress: itemProgress } = useScroll({
+
+  const { scrollYProgress } = useScroll({
     target: itemRef,
     offset: ['0.9 1', '0.2 0'],
   });
 
   const isRight = index % 2 !== 0;
   const direction = isRight ? 1 : -1;
-  const parallaxXBase = useTransform(
-    itemProgress,
-    [0, 1],
-    isRight ? [12, -8] : [-12, 8]
-  );
-  const parallaxYBase = useTransform(itemProgress, [0, 1], [14, -14]);
 
-  const parallaxX = useSpring(parallaxXBase, { stiffness: 120, damping: 22 });
-  const parallaxY = useSpring(parallaxYBase, { stiffness: 120, damping: 22 });
+  const parallaxX = useSpring(
+    useTransform(scrollYProgress, [0, 1], isRight ? [12, -8] : [-12, 8]),
+    { stiffness: 120, damping: 22 }
+  );
+
+  const parallaxY = useSpring(
+    useTransform(scrollYProgress, [0, 1], [14, -14]),
+    { stiffness: 120, damping: 22 }
+  );
 
   return (
     <motion.article
       ref={itemRef}
+      className="timeline-item"
       variants={itemVariants}
       custom={direction}
-      className={`timeline-item ${isActive ? 'is-active' : ''}`}
-      style={{
-        flexDirection: index % 2 === 0 ? 'row-reverse' : 'row',
-      }}
+      style={{ flexDirection: isRight ? 'row' : 'row-reverse' }}
+      onViewportEnter={() => onEnter(exp.id)}
       onHoverStart={() => setHoveredId(exp.id)}
       onHoverEnd={() => setHoveredId(null)}
-      onViewportEnter={() => onEnter(exp.id)}
-      viewport={{ once: false, amount: 0.55 }}
+      viewport={{ amount: 0.55 }}
     >
-      {/* Timeline Dot with Gradient */}
+      {/* Dot */}
       <motion.div
-        className={`timeline-dot ${isActive ? 'active' : ''}`}
+        className="timeline-dot"
         variants={dotVariants}
         initial="hidden"
         whileInView="visible"
-        whileHover="hover"
         animate={hoveredId === exp.id || isActive ? 'active' : 'visible'}
-        viewport={{ once: false, amount: 0.55 }}
+        whileHover="hover"
       >
-        <motion.div
-          className="timeline-dot-inner"
-          animate={{
-            boxShadow:
-              hoveredId === exp.id || isActive
-                ? '0 0 25px rgba(0, 243, 255, 0.85), 0 0 15px rgba(189, 0, 255, 0.5)'
-                : '0 0 15px rgba(0, 243, 255, 0.4)',
-          }}
-        />
         <span className="timeline-dot-ring" />
       </motion.div>
 
       <div style={{ flex: 1 }} />
 
-      {/* Content */}
+      {/* Card */}
       <motion.div
         className="timeline-content"
         style={{
-          y: reduceMotion ? 0 : parallaxY,
           x: reduceMotion ? 0 : parallaxX,
+          y: reduceMotion ? 0 : parallaxY,
         }}
       >
         <motion.div
-          className={`glass-panel p-6 rounded-xl relative h-full flex flex-col justify-center focus-within:ring-2 focus-within:ring-[var(--primary)] timeline-card ${isActive ? 'is-active' : ''}`}
+          className="glass-panel p-6 rounded-xl timeline-card"
           variants={cardVariants}
-          initial={reduceMotion ? false : 'hidden'}
-          whileInView={reduceMotion ? {} : 'visible'}
-          viewport={{ once: false, amount: 0.55 }}
+          initial="hidden"
+          whileInView="visible"
           whileHover="hover"
+          viewport={{ amount: 0.55 }}
         >
           <div className="timeline-card-header">
             <div className="timeline-company">
-              <Briefcase size={18} className="shrink-0" />
+              <Briefcase size={18} />
               <span>{exp.company}</span>
             </div>
             <div className="timeline-period">
@@ -196,7 +201,6 @@ const TimelineItem = ({ exp, index, isActive, onEnter, hoveredId, setHoveredId, 
           </div>
 
           <h3 className="timeline-role">{exp.role}</h3>
-
           <p className="timeline-description">{exp.description}</p>
         </motion.div>
       </motion.div>
@@ -204,45 +208,58 @@ const TimelineItem = ({ exp, index, isActive, onEnter, hoveredId, setHoveredId, 
   );
 };
 
-/* ------------------ Component ------------------ */
+/* ------------------ Main Component ------------------ */
 
 const Experience = () => {
   const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll();
+  const timelineRef = useRef(null);
   const [hoveredId, setHoveredId] = useState(null);
   const [activeId, setActiveId] = useState(experiences[0]?.id ?? null);
 
-  // Timeline line animation based on scroll
-  const lineProgress = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const smoothLine = useSpring(lineProgress, { stiffness: 120, damping: 24, mass: 0.3 });
-  const lineHeight = useTransform(smoothLine, (value) => `${value * 100}%`);
+  /* ✅ Scroll-linked timeline line */
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ['start end', 'end start'],
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 24,
+    mass: 0.3,
+  });
+
+  const lineHeight = useTransform(
+    smoothProgress,
+    (v) => `${v * 100}%`
+  );
 
   return (
     <section id="experience" className="section bg-[var(--bg-dark)]">
       <div className="container">
-        {/* Title */}
         <motion.h2
           className="section-title"
-          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-          whileInView={reduceMotion ? {} : { opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
         >
           Education & <span className="text-gradient">Experience</span>
         </motion.h2>
 
-        {/* Timeline */}
         <motion.div
+          ref={timelineRef}
           className="timeline"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
         >
-          {/* Animated Timeline Line */}
+          {/* ✅ Animated Timeline Glow Line */}
           <motion.div
             className="timeline-line-gradient"
-            style={{ height: lineHeight }}
+            style={{
+              height: lineHeight,
+              boxShadow: '0 0 30px rgba(0,243,255,0.75)',
+            }}
           />
 
           {experiences.map((exp, index) => (

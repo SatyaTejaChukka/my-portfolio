@@ -35,6 +35,8 @@ const About = () => {
                                 src={profileImg}
                                 alt="Satya Teja Chukka"
                                 className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                                width={400}
+                                height={400}
                                 wrapperClassName="w-full h-full"
                             />
                         </div>
