@@ -81,6 +81,12 @@ h6 {
   color: var(--text-main);
 }
 
+.modern-text {
+  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+  letter-spacing: 0.015em;
+  line-height: 1.65;
+}
+
 a {
   text-decoration: none;
   color: inherit;
@@ -1164,29 +1170,159 @@ ul {
   height: 100%;
 }
 
-.skill-bar-container {
+/* About Highlight Cards */
+.about-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   margin-bottom: 1.5rem;
 }
 
-.skill-info {
+.about-highlight-card {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-}
-
-.skill-track {
-  width: 100%;
-  height: 8px;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.75rem;
   background: var(--bg-card);
-  border-radius: 4px;
-  overflow: hidden;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.skill-progress {
-  height: 100%;
-  background: linear-gradient(to right, var(--primary), var(--secondary));
+.about-highlight-card:hover {
+  border-color: rgba(var(--primary-rgb), 0.3);
+  box-shadow: 0 0 16px rgba(var(--primary-rgb), 0.08);
 }
+
+.about-highlight-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.about-highlight-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 0.2rem;
+  letter-spacing: 0.01em;
+}
+
+.about-highlight-text {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+/* Skills Icon Grid */
+.skills-icon-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  border-radius: 1rem;
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.skill-category {
+  /* no extra spacing needed; gap handles it */
+}
+
+.skill-category-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--primary);
+  margin-bottom: 0.6rem;
+}
+
+.skill-icons-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.skill-icon-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 0.5rem;
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  cursor: default;
+}
+
+/* Gradient border overlay on hover */
+.skill-icon-chip::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.skill-icon-chip:hover::before {
+  opacity: 1;
+}
+
+.skill-icon-chip:hover {
+  border-color: transparent;
+  box-shadow: 0 0 14px rgba(var(--primary-rgb), 0.15);
+  background: rgba(var(--primary-rgb), 0.06);
+}
+
+.skill-icon-chip i {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+/* Make Flask & GitHub icons visible on dark theme (they are dark by default) */
+.skill-icon-chip .devicon-flask-original,
+.skill-icon-chip .devicon-github-original,
+.skill-icon-chip .devicon-pandas-plain {
+  color: var(--text-main);
+}
+
+[data-theme="light"] .skill-icon-chip .devicon-flask-original,
+[data-theme="light"] .skill-icon-chip .devicon-github-original,
+[data-theme="light"] .skill-icon-chip .devicon-pandas-plain {
+  color: var(--text-main);
+}
+
+.skill-icon-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+  transition: color 0.25s ease;
+}
+
+.skill-icon-chip:hover .skill-icon-label {
+  color: var(--text-main);
+}
+
 
 /* Projects Section */
 .projects-grid {
@@ -1214,7 +1350,7 @@ ul {
 }
 
 .project-img {
-  height: 200px;
+  height: 160px;
   background: var(--bg-card);
   display: flex;
   align-items: center;
@@ -1223,16 +1359,16 @@ ul {
 }
 
 .project-info {
-  padding: 1.5rem;
+  padding: 1.25rem;
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
 .project-title {
-  font-size: 1.35rem;
+  font-size: 1.2rem;
   font-weight: 800;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   letter-spacing: 0.2px;
   color: var(--text-main);
   text-transform: none;
@@ -1270,7 +1406,7 @@ ul {
   flex-wrap: wrap;
   gap: 0.75rem;
   margin-top: auto;
-  padding-top: 1.5rem;
+  padding-top: 1.2rem;
 }
 
 .project-action-btn {

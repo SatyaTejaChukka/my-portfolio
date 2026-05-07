@@ -405,7 +405,7 @@ const Projects = () => {
                   </h3>
 
                   <div className="project-description-wrapper">
-                    <p className="text-[var(--text-muted)] text-sm project-description">
+                    <p className="text-[var(--text-muted)] text-sm project-description modern-text">
                       {project.description}
                     </p>
                     <span className="project-description-hint">Hover to read more</span>
@@ -503,7 +503,7 @@ const Projects = () => {
                   </h3>
 
                   <div className="project-description-wrapper">
-                    <p className="text-[var(--text-muted)] text-sm project-description">
+                    <p className="text-[var(--text-muted)] text-sm project-description modern-text">
                       {project.description}
                     </p>
                     <span className="project-description-hint">Tap to read more</span>

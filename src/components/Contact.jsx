@@ -135,7 +135,7 @@ const Contact = () => {
                     {/* Contact Info */}
                     <div>
                         <h3 className="text-2xl font-bold mb-6">Let's Talk</h3>
-                        <p className="text-[var(--text-muted)] mb-8">
+                        <p className="text-[var(--text-muted)] mb-8 modern-text">
                             Have a project in mind or just want to say hi? Feel free to reach out.
                             I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.
                         </p>

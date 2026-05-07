@@ -15,6 +15,14 @@ import SpotlightCard from './SpotlightCard';
 const experiences = [
   {
     id: 1,
+    role: 'Machine Learning Intern',
+    company: 'Crescout.ai',
+    period: 'Mar 2025 - Present',
+    description:
+      'Contributed to an AI-powered badminton analytics platform by training ResNet and MobileNet computer vision models for court detection, achieving 99.66% pixel accuracy on 200+ annotated gameplay frames. Worked on LSTM and BiLSTM + Attention-based sequence models for shot analysis, rally classification, next-shot prediction, and winning probability estimation. Built automated Kaggle and Google Drive workflows for remote video-processing and match analytics pipelines.'
+  },
+  {
+    id: 2,
     role: 'B.Tech in CSE (AI & ML)',
     company: 'Gayatri Vidya Parishad College of Engineering',
     period: '2023 - Present',
@@ -22,7 +30,7 @@ const experiences = [
       'CGPA: 8.79. Coursework: DSA, Computer Networks, OS, DBMS, OOP, ML, Probability & Statistics.',
   },
   {
-    id: 2,
+    id: 3,
     role: 'Intermediate - MPC',
     company: 'Sasi Junior College',
     period: '2021 - 2023',
@@ -30,7 +38,7 @@ const experiences = [
       'Completed intermediate education with Mathematics, Physics, and Chemistry as core subjects.',
   },
   {
-    id: 3,
+    id: 4,
     role: 'Schooling',
     company: 'Gnanodaya R.C.M High School',
     period: '2014 - 2021',
@@ -204,7 +212,7 @@ const TimelineItem = ({
             </div>
 
             <h3 className="timeline-role">{exp.role}</h3>
-            <p className="timeline-description">{exp.description}</p>
+            <div className="timeline-description modern-text">{exp.description}</div>
           </motion.div>
         </SpotlightCard>
 
