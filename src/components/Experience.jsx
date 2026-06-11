@@ -198,6 +198,7 @@ const TimelineItem = ({
             initial="hidden"
             whileInView="visible"
             whileHover="hover"
+            whileTap={{ scale: 0.98 }}
             viewport={{ amount: 0.55 }}
           >
             <div className="timeline-card-header">

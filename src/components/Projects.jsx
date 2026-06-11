@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Github, X } from 'lucide-react';
+import { ExternalLink, Github, X, ChevronDown } from 'lucide-react';
 import LazyImage from './LazyImage';
 import SpotlightCard from './SpotlightCard';
+import { hapticLight } from '../utils/mobile';
+import { useIsTouchDevice } from '../hooks/useMobile';
 
 
 /* ------------------ Animation Variants ------------------ */
@@ -36,15 +38,22 @@ const cardVariantsDesktop = {
   },
 };
 
-// Mobile: always visible, just slight y animation
+// Mobile: lighter scroll-in animation
 const cardVariantsMobile = {
   hidden: {
-    opacity: 1,
-    y: 0,
+    opacity: 0,
+    y: 16,
+    scale: 0.97,
   },
   visible: {
     opacity: 1,
     y: 0,
+    scale: 1,
+    transition: {
+      type: 'spring',
+      stiffness: 140,
+      damping: 16,
+    },
   },
 };
 
@@ -251,15 +260,17 @@ const Projects = () => {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
   const [selectedProject, setSelectedProject] = useState(null);
   const [activeShot, setActiveShot] = useState(0);
+  const isTouch = useIsTouchDevice();
+  const swipeStartX = useRef(0);
 
   const openCaseStudy = (project) => {
     setSelectedProject(project);
     setActiveShot(0);
   };
 
-  const closeCaseStudy = () => {
+  const closeCaseStudy = useCallback(() => {
     setSelectedProject(null);
-  };
+  }, []);
 
   React.useEffect(() => {
     const handleResize = () => {
@@ -287,14 +298,27 @@ const Projects = () => {
       ? caseStudy.highlights
       : selectedProject?.features ?? [];
 
-  const advanceShot = (direction) => {
+  const advanceShot = useCallback((direction) => {
     if (screenshots.length <= 1) {
       return;
     }
+    hapticLight();
     setActiveShot((prev) => {
       const next = (prev + direction + screenshots.length) % screenshots.length;
       return next;
     });
+  }, [screenshots.length]);
+
+  const handleGalleryTouchStart = (event) => {
+    swipeStartX.current = event.touches[0]?.clientX ?? 0;
+  };
+
+  const handleGalleryTouchEnd = (event) => {
+    if (screenshots.length <= 1) return;
+    const endX = event.changedTouches[0]?.clientX ?? 0;
+    const delta = endX - swipeStartX.current;
+    if (Math.abs(delta) < 50) return;
+    advanceShot(delta > 0 ? -1 : 1);
   };
 
   React.useEffect(() => {
@@ -333,7 +357,7 @@ const Projects = () => {
       window.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = previousOverflow;
     };
-  }, [selectedProject, screenshots.length]);
+  }, [selectedProject, screenshots.length, advanceShot, closeCaseStudy]);
 
   return (
     <section id="projects" className="section">
@@ -350,11 +374,14 @@ const Projects = () => {
         </motion.h2>
 
         {/* Filters */}
-        <div className="filter-container">
+        <div className={`filter-container ${!isDesktop ? 'filter-container--scroll' : ''}`}>
           {CATEGORIES.map((cat) => (
             <motion.button
               key={cat}
-              onClick={() => setFilter(cat)}
+              onClick={() => {
+                setFilter(cat);
+                hapticLight();
+              }}
               className={`filter-btn ${filter === cat ? 'active' : ''}`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -372,13 +399,15 @@ const Projects = () => {
             className="projects-grid"
             variants={gridVariants}
             initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+            animate="visible"
           >
-            {filteredProjects.map((project) => (
+            {filteredProjects.map((project, index) => (
               <SpotlightCard key={project.id} className="relative project-card glass-panel group">
               <motion.div
                 variants={cardVariantsDesktop}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: index * 0.08 }}
                 className="h-full"
               >
                 {/* Project Image with Lazy Loading */}
@@ -472,11 +501,21 @@ const Projects = () => {
             ))}
           </motion.div>
         ) : (
-          // Mobile: Always visible, no scroll animation
-          <div key={filter} className="projects-grid">
-            {filteredProjects.map((project) => (
-              <SpotlightCard key={project.id} className="relative project-card glass-panel group">
-              <div
+          <motion.div
+            key={filter}
+            className="projects-grid"
+            variants={gridVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {filteredProjects.map((project, index) => (
+              <SpotlightCard key={project.id} className="relative project-card glass-panel group project-card--touch">
+              <motion.div
+                variants={cardVariantsMobile}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: index * 0.06 }}
+                whileTap={{ scale: 0.98 }}
                 className="h-full"
               >
                 {/* Project Image with Lazy Loading */}
@@ -506,7 +545,10 @@ const Projects = () => {
                     <p className="text-[var(--text-muted)] text-sm project-description modern-text">
                       {project.description}
                     </p>
-                    <span className="project-description-hint">Tap to read more</span>
+                    <span className="project-description-hint project-description-hint--pulse">
+                      Tap to read more
+                      {isTouch && <ChevronDown size={12} className="project-description-hint-chevron" />}
+                    </span>
                     <div className="project-description-full">
                       {project.description}
                     </div>
@@ -565,10 +607,10 @@ const Projects = () => {
                     </a>
                   </div>
                 </div>
-              </div>
+              </motion.div>
               </SpotlightCard>
             ))}
-          </div>
+          </motion.div>
         )}
       </div>
 
@@ -610,7 +652,11 @@ const Projects = () => {
               </div>
 
               <div className="case-study-body">
-                <div className="case-study-gallery">
+                <div
+                  className="case-study-gallery"
+                  onTouchStart={handleGalleryTouchStart}
+                  onTouchEnd={handleGalleryTouchEnd}
+                >
                   <div className="case-study-hero">
                     <LazyImage
                       src={screenshots[activeShot]}
@@ -620,6 +666,11 @@ const Projects = () => {
                       wrapperClassName="case-study-hero-wrapper"
                     />
                   </div>
+                  {screenshots.length > 1 && (
+                    <p className="case-study-swipe-hint" aria-hidden="true">
+                      Swipe to browse screenshots
+                    </p>
+                  )}
                   {screenshots.length > 1 && (
                     <div className="case-study-thumbs">
                       {screenshots.map((shot, index) => (

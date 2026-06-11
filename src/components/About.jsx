@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import LazyImage from './LazyImage';
 import profileImg from '../assets/profile.png';
+import { hapticLight } from '../utils/mobile';
 
 const skillCategories = [
     {
@@ -67,6 +68,7 @@ const About = () => {
         triggerOnce: true,
         threshold: 0.1,
     });
+    const [activeSkill, setActiveSkill] = useState(null);
 
     return (
         <section id="about" className="section bg-[var(--bg-dark)]">
@@ -143,7 +145,7 @@ const About = () => {
                                         {category.skills.map((skill, idx) => (
                                             <motion.div
                                                 key={skill.name}
-                                                className="skill-icon-chip"
+                                                className={`skill-icon-chip ${activeSkill === skill.name ? 'skill-icon-chip--active' : ''}`}
                                                 initial={{ opacity: 0, scale: 0.7 }}
                                                 animate={inView ? { opacity: 1, scale: 1 } : {}}
                                                 transition={{
@@ -151,6 +153,12 @@ const About = () => {
                                                     delay: catIdx * 0.08 + idx * 0.04,
                                                 }}
                                                 whileHover={{ y: -4, scale: 1.08 }}
+                                                whileTap={{ scale: 0.92, y: -2 }}
+                                                onTap={() => {
+                                                    setActiveSkill(skill.name);
+                                                    hapticLight();
+                                                    window.setTimeout(() => setActiveSkill(null), 700);
+                                                }}
                                                 title={skill.name}
                                             >
                                                 <i className={skill.icon} />

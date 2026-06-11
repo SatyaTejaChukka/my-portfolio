@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Send, Mail, Phone, User, MousePointer2, CheckCircle } from 'lucide-react';
+import { Send, Mail, Phone, User, MousePointer2, Hand, CheckCircle } from 'lucide-react';
+import { useIsTouchDevice } from '../hooks/useMobile';
+import { hapticLight, hapticMedium } from '../utils/mobile';
 
 const EMAIL_ADDRESS = 'satyateja671@gmail.com';
 const RESUME_URL = `${import.meta.env.BASE_URL}Satya_Teja_Latest_Resume.pdf`;
@@ -41,6 +43,68 @@ const validateField = (name, value) => {
     return '';
 };
 
+const ContactItem = ({ href, children, className = '', onLongPress, external }) => {
+    const isTouch = useIsTouchDevice();
+    const longPressTimer = useRef(null);
+    const didLongPress = useRef(false);
+    const ClickIcon = isTouch ? Hand : MousePointer2;
+
+    const clearLongPress = () => {
+        if (longPressTimer.current) {
+            window.clearTimeout(longPressTimer.current);
+            longPressTimer.current = null;
+        }
+    };
+
+    const handleTouchStart = () => {
+        if (!onLongPress) return;
+        didLongPress.current = false;
+        longPressTimer.current = window.setTimeout(() => {
+            didLongPress.current = true;
+            onLongPress();
+            hapticMedium();
+        }, 600);
+    };
+
+    const handleTouchEnd = (event) => {
+        clearLongPress();
+        if (didLongPress.current) {
+            event.preventDefault();
+        }
+    };
+
+    const handleClick = (event) => {
+        if (didLongPress.current) {
+            event.preventDefault();
+            didLongPress.current = false;
+            return;
+        }
+        hapticLight();
+    };
+
+    const linkProps = external
+        ? { target: '_blank', rel: 'noopener noreferrer' }
+        : {};
+
+    return (
+        <motion.a
+            href={href}
+            className={`contact-item group ${className}`}
+            whileTap={{ scale: 0.98 }}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            onTouchCancel={clearLongPress}
+            onClick={handleClick}
+            {...linkProps}
+        >
+            {children}
+            <span className="contact-click" aria-hidden="true">
+                <ClickIcon size={18} />
+            </span>
+        </motion.a>
+    );
+};
+
 const Contact = () => {
     const [formData, setFormData] = useState({
         name: '',
@@ -51,6 +115,7 @@ const Contact = () => {
     const [errors, setErrors] = useState({});
     const [touched, setTouched] = useState({});
     const [copied, setCopied] = useState(false);
+    const isTouch = useIsTouchDevice();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -99,13 +164,14 @@ const Contact = () => {
             return;
         }
         setStatus('sending');
+        hapticLight();
 
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVLDlMZIOcNqq1NzD323h_HGgLjCya0x6y3QOu1YEg0xqU4P3DN25msSqOgCHxEAlP/exec";
 
         try {
             await fetch(GOOGLE_SCRIPT_URL, {
                 method: "POST",
-                mode: "no-cors", // Important for Google Apps Script
+                mode: "no-cors",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -113,6 +179,7 @@ const Contact = () => {
             });
 
             setStatus('success');
+            hapticMedium();
             setFormData({ name: '', email: '', message: '' });
             setErrors({});
             setTouched({});
@@ -132,16 +199,22 @@ const Contact = () => {
                 </h2>
 
                 <div className="contact-grid">
-                    {/* Contact Info */}
                     <div>
-                        <h3 className="text-2xl font-bold mb-6">Let's Talk</h3>
+                        <h3 className="text-2xl font-bold mb-6">Let&apos;s Talk</h3>
                         <p className="text-[var(--text-muted)] mb-8 modern-text">
                             Have a project in mind or just want to say hi? Feel free to reach out.
-                            I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.
+                            I&apos;m always open to discussing new projects, creative ideas or opportunities to be part of your visions.
                         </p>
 
+                        {isTouch && (
+                            <p className="contact-touch-hint">Long-press email to copy</p>
+                        )}
+
                         <div className="space-y-6">
-                            <a href={`mailto:${EMAIL_ADDRESS}`} className="contact-item group">
+                            <ContactItem
+                                href={`mailto:${EMAIL_ADDRESS}`}
+                                onLongPress={handleCopyEmail}
+                            >
                                 <div className="p-2">
                                     <Mail size={24} className="text-[var(--primary)] group-hover:scale-110 transition-transform" />
                                 </div>
@@ -155,19 +228,18 @@ const Contact = () => {
                                         className="copy-email-btn"
                                         onClick={(event) => {
                                             event.preventDefault();
+                                            event.stopPropagation();
                                             handleCopyEmail();
+                                            hapticLight();
                                         }}
                                         aria-label="Copy email address"
                                     >
                                         Copy
                                     </button>
                                 </div>
-                                <span className="contact-click" aria-hidden="true">
-                                    <MousePointer2 size={18} />
-                                </span>
-                            </a>
+                            </ContactItem>
 
-                            <a href="tel:+916301304206" className="contact-item group">
+                            <ContactItem href="tel:+916301304206">
                                 <div className="p-2">
                                     <Phone size={24} className="text-[var(--primary)] group-hover:scale-110 transition-transform" />
                                 </div>
@@ -175,12 +247,9 @@ const Contact = () => {
                                     <h4 className="font-bold">Phone</h4>
                                     <p className="text-[var(--text-muted)] group-hover:text-[var(--primary)] transition-colors">+91 6301304206</p>
                                 </div>
-                                <span className="contact-click" aria-hidden="true">
-                                    <MousePointer2 size={18} />
-                                </span>
-                            </a>
+                            </ContactItem>
 
-                            <a href="https://wa.me/916301304206" target="_blank" rel="noopener noreferrer" className="contact-item group">
+                            <ContactItem href="https://wa.me/916301304206" external>
                                 <div className="p-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="text-[var(--primary)] group-hover:scale-110 transition-transform">
                                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
@@ -190,13 +259,9 @@ const Contact = () => {
                                     <h4 className="font-bold">WhatsApp</h4>
                                     <p className="text-[var(--text-muted)] group-hover:text-[var(--primary)] transition-colors">+91 6301304206</p>
                                 </div>
-                                <span className="contact-click" aria-hidden="true">
-                                    <MousePointer2 size={18} />
-                                </span>
-                            </a>
+                            </ContactItem>
                         </div>
 
-                        {/* Resume Button */}
                         <div className="mt-auto pt-12 border-t-2 border-[var(--glass-border)] flex justify-center" style={{ marginTop: '50px' }}>
                             <motion.a
                                 href={RESUME_URL}
@@ -205,6 +270,7 @@ const Contact = () => {
                                 className="resume-button-wrapper"
                                 whileHover={{ scale: 1.03, y: -2 }}
                                 whileTap={{ scale: 0.97 }}
+                                onClick={() => hapticLight()}
                             >
                                 <div className="resume-button-content">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="resume-icon">
@@ -225,7 +291,6 @@ const Contact = () => {
 
                     </div>
 
-                    {/* Contact Form */}
                     <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -305,18 +370,19 @@ const Contact = () => {
                                 )}
                             </div>
 
-                            <button
+                            <motion.button
                                 type="submit"
                                 disabled={status === 'sending'}
                                 className="btn btn-primary w-full flex items-center justify-center gap-2"
                                 style={{ width: '100%' }}
+                                whileTap={{ scale: 0.98 }}
                             >
                                 {status === 'sending' ? 'Sending...' : (
                                     <>
                                         Send Message <Send size={18} />
                                     </>
                                 )}
-                            </button>
+                            </motion.button>
 
                             <div
                                 className="form-status"

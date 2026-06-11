@@ -7,6 +7,8 @@ import SectionProgress from './components/SectionProgress';
 import ErrorBoundary, { SectionErrorBoundary } from './components/ErrorBoundary';
 import { registerServiceWorker, isOffline, onOnlineStatusChange } from './utils/registerSW';
 import Cursor from './components/Cursor';
+import TouchRipple from './components/TouchRipple';
+import MobileSectionNav from './components/MobileSectionNav';
 
 // Lazy load components for code splitting
 const About = lazy(() => import('./components/About'));
@@ -48,6 +50,7 @@ function App() {
     <ErrorBoundary>
       <div className="app">
         <Cursor />
+        <TouchRipple />
         <Navbar />
         <main id="main-content" tabIndex="-1">
           <SectionErrorBoundary sectionName="Hero">
@@ -76,6 +79,7 @@ function App() {
         </main>
         <Footer />
         <SectionProgress />
+        <MobileSectionNav />
         <ScrollToTop />
         {!isOnline && (
           <div className="offline-indicator" role="status" aria-live="polite">
