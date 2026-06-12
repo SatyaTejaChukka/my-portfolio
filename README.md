@@ -2,7 +2,7 @@
 
 A premium, fully responsive developer portfolio built with **React + Vite**, featuring glassmorphism design, Framer Motion animations, an interactive spotlight card system, a custom glowing cursor, PWA support, and full dark/light theme switching.
 
-🔗 **Live**: [satyatejachukka.github.io/my-portfolio](https://satyatejachukka.github.io/my-portfolio/)
+🔗 **Live**: [satyatejachukka.github.io/](https://satyatejachukka.github.io/)
 
 ---
 
