@@ -108,9 +108,16 @@ const Navbar = () => {
 
     useEffect(() => {
         let rafId = 0;
+        const sectionOffsets = new Map();
 
-        const getSections = () =>
-            navLinks.map((link) => document.querySelector(link.href)).filter(Boolean);
+        const cacheOffsets = () => {
+            navLinks.forEach((link) => {
+                const element = document.querySelector(link.href);
+                if (element) {
+                    sectionOffsets.set(link.href.replace('#', ''), element.offsetTop);
+                }
+            });
+        };
 
         const getNavOffset = () => {
             const nav = document.querySelector('.navbar');
@@ -118,54 +125,55 @@ const Navbar = () => {
         };
 
         const updateActive = () => {
-            const sections = getSections();
-            if (!sections.length) {
-                return;
-            }
+            if (sectionOffsets.size === 0) return;
 
             const offset = getNavOffset();
-            const scrollPosition =
-                (window.scrollY || document.documentElement.scrollTop) + offset;
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const scrollPosition = scrollTop + offset;
 
-            let current = sections[0].id;
-            for (const section of sections) {
-                if (scrollPosition >= section.offsetTop) {
-                    current = section.id;
+            let current = navLinks[0].href.replace('#', '');
+            
+            navLinks.forEach((link) => {
+                const id = link.href.replace('#', '');
+                const sectionOffset = sectionOffsets.get(id);
+                if (sectionOffset !== undefined && scrollPosition >= sectionOffset) {
+                    current = id;
                 }
-            }
+            });
 
-            const pageBottom =
-                window.innerHeight + (window.scrollY || document.documentElement.scrollTop);
+            const pageBottom = window.innerHeight + scrollTop;
             const docHeight = document.documentElement.scrollHeight;
             if (pageBottom >= docHeight - 2) {
-                current = sections[sections.length - 1].id;
+                current = navLinks[navLinks.length - 1].href.replace('#', '');
             }
 
             setActiveSection(current);
         };
 
         const handleScroll = () => {
-            if (rafId) {
-                return;
-            }
+            if (rafId) return;
             rafId = window.requestAnimationFrame(() => {
                 rafId = 0;
                 updateActive();
             });
         };
 
+        const handleResize = () => {
+            cacheOffsets();
+            handleScroll();
+        };
+
+        cacheOffsets();
         updateActive();
         window.addEventListener('scroll', handleScroll, { passive: true });
-        window.addEventListener('resize', handleScroll);
-        window.addEventListener('load', handleScroll);
+        window.addEventListener('resize', handleResize, { passive: true });
+        window.addEventListener('load', handleResize, { passive: true });
 
         return () => {
-            if (rafId) {
-                window.cancelAnimationFrame(rafId);
-            }
+            if (rafId) window.cancelAnimationFrame(rafId);
             window.removeEventListener('scroll', handleScroll);
-            window.removeEventListener('resize', handleScroll);
-            window.removeEventListener('load', handleScroll);
+            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('load', handleResize);
         };
     }, []);
 

@@ -47,12 +47,18 @@ const SpotlightCard = ({
     fadeTimerRef.current = window.setTimeout(clearSpotlight, 320);
   }, [clearSpotlight]);
 
+  const rectRef = useRef(null);
+
   const updateFromClient = useCallback(
     (clientX, clientY) => {
       const card = cardRef.current;
       if (!card) return;
 
-      const rect = card.getBoundingClientRect();
+      if (!rectRef.current) {
+        rectRef.current = card.getBoundingClientRect();
+      }
+      
+      const rect = rectRef.current;
       setSpotlight(clientX - rect.left, clientY - rect.top);
     },
     [setSpotlight]
@@ -65,7 +71,14 @@ const SpotlightCard = ({
     [updateFromClient]
   );
 
+  const handleMouseEnter = useCallback(() => {
+    if (cardRef.current) {
+      rectRef.current = cardRef.current.getBoundingClientRect();
+    }
+  }, []);
+
   const handleMouseLeave = useCallback(() => {
+    rectRef.current = null;
     clearSpotlight();
   }, [clearSpotlight]);
 
@@ -73,6 +86,9 @@ const SpotlightCard = ({
     (e) => {
       const touch = e.touches[0];
       if (!touch) return;
+      if (cardRef.current) {
+        rectRef.current = cardRef.current.getBoundingClientRect();
+      }
       updateFromClient(touch.clientX, touch.clientY);
     },
     [updateFromClient]
@@ -88,6 +104,7 @@ const SpotlightCard = ({
   );
 
   const handleTouchEnd = useCallback(() => {
+    rectRef.current = null;
     scheduleFade();
   }, [scheduleFade]);
 
@@ -97,6 +114,7 @@ const SpotlightCard = ({
       className={`spotlight-card ${isTouch ? 'spotlight-card--touch' : ''} ${className}`}
       style={style}
       onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}

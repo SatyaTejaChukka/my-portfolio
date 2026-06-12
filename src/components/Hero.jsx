@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 import { useIsTouchDevice } from '../hooks/useMobile';
 import {
@@ -12,13 +12,20 @@ const Hero = () => {
   const name = 'Satya Teja Chukka';
   const letters = name.split('');
   const [isWaving, setIsWaving] = useState(false);
-  const [tiltStyles, setTiltStyles] = useState({ x: 0, y: 0 });
-  const [scrollY, setScrollY] = useState(0);
-  const [pullOffset, setPullOffset] = useState(0);
   const [tiltEnabled, setTiltEnabled] = useState(false);
   const touchStartY = useRef(0);
   const isTouch = useIsTouchDevice();
   const reduceMotion = useReducedMotion();
+
+  // Framer Motion values for performance (avoids re-renders)
+  const tiltX = useMotionValue(0);
+  const tiltY = useMotionValue(0);
+  const pullOffset = useMotionValue(0);
+  
+  // Springs for smoothness
+  const springTiltX = useSpring(tiltX, { stiffness: 150, damping: 25 });
+  const springTiltY = useSpring(tiltY, { stiffness: 150, damping: 25 });
+  const springPullOffset = useSpring(pullOffset, { stiffness: 300, damping: 28 });
 
   const enableTilt = useCallback(async () => {
     const granted = await requestDeviceOrientation();
@@ -27,7 +34,11 @@ const Hero = () => {
   }, []);
 
   useEffect(() => {
-    if (!tiltEnabled) return undefined;
+    if (!tiltEnabled) {
+      // If tilt is not enabled, we might want to sync tiltX/Y with scrollParallax if desired,
+      // but simpler to just use scrollParallax directly in the view.
+      return undefined;
+    }
 
     const handleDeviceOrientation = (event) => {
       const { gamma, beta } = event;
@@ -36,13 +47,15 @@ const Hero = () => {
       const maxTilt = 20;
       const xTilt = (Math.min(Math.max(gamma, -30), 30) / 30) * maxTilt;
       const yTilt = (Math.min(Math.max(beta - 45, -30), 30) / 30) * maxTilt;
-      setTiltStyles({ x: xTilt, y: yTilt });
+      
+      tiltX.set(xTilt);
+      tiltY.set(yTilt);
     };
 
     window.addEventListener('deviceorientation', handleDeviceOrientation, true);
     return () =>
       window.removeEventListener('deviceorientation', handleDeviceOrientation, true);
-  }, [tiltEnabled]);
+  }, [tiltEnabled, tiltX, tiltY]);
 
   useEffect(() => {
     if (!isTouch || tiltEnabled) return undefined;
@@ -56,13 +69,6 @@ const Hero = () => {
   }, [isTouch, tiltEnabled, enableTilt]);
 
   useEffect(() => {
-    const onScroll = () => setScrollY(window.scrollY || 0);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  useEffect(() => {
     if (!isTouch || reduceMotion) return undefined;
 
     const onTouchStart = (e) => {
@@ -71,19 +77,19 @@ const Hero = () => {
 
     const onTouchMove = (e) => {
       if (window.scrollY > 8) {
-        setPullOffset(0);
+        pullOffset.set(0);
         return;
       }
       const currentY = e.touches[0]?.clientY ?? 0;
       const delta = currentY - touchStartY.current;
       if (delta > 0) {
-        setPullOffset(Math.min(delta * 0.35, 36));
+        pullOffset.set(Math.min(delta * 0.35, 36));
       } else {
-        setPullOffset(0);
+        pullOffset.set(0);
       }
     };
 
-    const onTouchEnd = () => setPullOffset(0);
+    const onTouchEnd = () => pullOffset.set(0);
 
     const hero = document.getElementById('home');
     if (!hero) return undefined;
@@ -99,15 +105,17 @@ const Hero = () => {
       hero.removeEventListener('touchend', onTouchEnd);
       hero.removeEventListener('touchcancel', onTouchEnd);
     };
-  }, [isTouch, reduceMotion]);
+  }, [isTouch, reduceMotion, pullOffset]);
 
-  const scrollParallax = reduceMotion
-    ? { x: 0, y: 0 }
-    : { x: scrollY * 0.018, y: scrollY * 0.012 };
-
-  const combinedTilt = tiltEnabled
-    ? tiltStyles
-    : scrollParallax;
+  // When tilt (gyroscope) is active, bg circles follow the device tilt.
+  // On desktop / no-tilt: circles are static (they float via CSS animation).
+  // Scroll-driven parallax was removed — it ran on every scroll tick for
+  // a subtle effect that isn't worth the continuous computation.
+  // Note: useTransform is always called unconditionally (Rules of Hooks).
+  const circle1X = useTransform(springTiltX, (v) => v * -1.5);
+  const circle1Y = useTransform(springTiltY, (v) => v * -1.5);
+  const circle2X = useTransform(springTiltX, (v) => v * 2);
+  const circle2Y = useTransform(springTiltY, (v) => v * 2);
 
   const handleTap = () => {
     if (isWaving) return;
@@ -122,33 +130,29 @@ const Hero = () => {
       <div className="absolute inset-0 z-0">
         <motion.div
           className="hero-bg-circle"
-          animate={{
-            x: combinedTilt.x * -1.5,
-            y: combinedTilt.y * -1.5,
+          style={{ 
+            top: '10%', 
+            left: '10%', 
+            background: 'var(--primary)',
+            // Only bind motion values when tilt is active; otherwise static float via CSS
+            ...(tiltEnabled && { x: circle1X, y: circle1Y }),
           }}
-          transition={{ type: 'tween', ease: 'easeOut', duration: 0.15 }}
-          style={{ top: '10%', left: '10%', background: 'var(--primary)' }}
         />
         <motion.div
           className="hero-bg-circle"
-          animate={{
-            x: combinedTilt.x * 2,
-            y: combinedTilt.y * 2,
-          }}
-          transition={{ type: 'tween', ease: 'easeOut', duration: 0.15 }}
           style={{
             bottom: '10%',
             right: '10%',
             background: 'var(--secondary)',
             animationDelay: '2s',
+            ...(tiltEnabled && { x: circle2X, y: circle2Y }),
           }}
         />
       </div>
 
       <motion.div
         className="container hero-content"
-        animate={{ y: pullOffset }}
-        transition={{ type: 'spring', stiffness: 300, damping: 28 }}
+        style={{ y: springPullOffset }}
       >
         <motion.div
           initial={{ opacity: 0, y: 20 }}

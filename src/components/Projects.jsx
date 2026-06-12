@@ -4,7 +4,7 @@ import { ExternalLink, Github, X, ChevronDown } from 'lucide-react';
 import LazyImage from './LazyImage';
 import SpotlightCard from './SpotlightCard';
 import { hapticLight } from '../utils/mobile';
-import { useIsTouchDevice } from '../hooks/useMobile';
+import { useIsTouchDevice, useIsMobileNav } from '../hooks/useMobile';
 
 
 /* ------------------ Animation Variants ------------------ */
@@ -257,7 +257,10 @@ const CATEGORIES = ['All', 'Web', 'AI'];
 
 const Projects = () => {
   const [filter, setFilter] = useState('All');
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
+  // Use matchMedia-based hook instead of state — avoids re-rendering the entire
+  // Projects component on every window resize event.
+  const isMobile = useIsMobileNav();
+  const isDesktop = !isMobile;
   const [selectedProject, setSelectedProject] = useState(null);
   const [activeShot, setActiveShot] = useState(0);
   const isTouch = useIsTouchDevice();
@@ -272,14 +275,6 @@ const Projects = () => {
     setSelectedProject(null);
   }, []);
 
-  React.useEffect(() => {
-    const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 768);
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const filteredProjects =
     filter === 'All'

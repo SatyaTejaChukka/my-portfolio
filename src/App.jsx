@@ -3,7 +3,6 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
-import SectionProgress from './components/SectionProgress';
 import ErrorBoundary, { SectionErrorBoundary } from './components/ErrorBoundary';
 import { registerServiceWorker, isOffline, onOnlineStatusChange } from './utils/registerSW';
 import Cursor from './components/Cursor';
@@ -78,7 +77,6 @@ function App() {
           </SectionErrorBoundary>
         </main>
         <Footer />
-        <SectionProgress />
         <MobileSectionNav />
         <ScrollToTop />
         {!isOnline && (
