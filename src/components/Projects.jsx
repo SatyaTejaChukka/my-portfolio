@@ -66,7 +66,7 @@ const projectsData = [
   {
     id: 1,
     title: 'Stroke Prediction App',
-    category: 'AI',
+    category: 'AI/ML',
     image: '/my-portfolio/projects/stroke-prediction.png',
     fallbackEmoji: '🧠',
     description:
@@ -92,7 +92,7 @@ const projectsData = [
   {
     id: 2,
     title: 'House Price Prediction',
-    category: 'AI',
+    category: 'AI/ML',
     image: '/my-portfolio/projects/house-price.png',
     fallbackEmoji: '🏠',
     description:
@@ -118,7 +118,7 @@ const projectsData = [
   {
     id: 3,
     title: 'Traffic Accident Prediction',
-    category: 'AI',
+    category: 'AI/ML',
     image: '/my-portfolio/projects/traffic-accident.png',
     fallbackEmoji: '🚦',
     description:
@@ -250,7 +250,7 @@ const projectsData = [
   },
 ];
 
-const CATEGORIES = ['All', 'Web', 'AI'];
+const CATEGORIES = ['All', 'Web', 'AI/ML'];
 
 
 /* ------------------ Component ------------------ */

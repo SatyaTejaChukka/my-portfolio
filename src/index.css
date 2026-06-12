@@ -88,7 +88,7 @@ h6 {
 }
 
 [data-theme="light"] .hero-greeting {
-  color: #64748b;
+  color: var(--primary); /* vibrant violet — stands out on light lavender bg */
 }
 
 .modern-text {
@@ -859,11 +859,19 @@ ul {
   margin-bottom: 2rem;
 }
 
+[data-theme="light"] .hero-subtitle {
+  color: #1e293b; /* slate-800 — proper contrast on light lavender hero bg */
+}
+
 .hero-desc {
   font-size: 1.1rem;
   color: var(--text-muted);
   margin-bottom: 2rem;
   line-height: 1.8;
+}
+
+[data-theme="light"] .hero-desc {
+  color: #334155; /* slate-700 — readable but slightly softer than the subtitle */
 }
 
 .hero-badge {
@@ -2770,9 +2778,10 @@ img {
 .project-feature-tag {
   font-size: 0.7rem;
   color: var(--primary);
-  background: rgba(0, 243, 255, 0.1);
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
+  background: rgba(0, 243, 255, 0.08);
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 243, 255, 0.25);
   white-space: nowrap;
 }
 
@@ -3537,15 +3546,13 @@ html[data-theme="light"] .timeline-line-gradient,
 
 .filter-container--scroll {
   flex-wrap: nowrap;
-  justify-content: flex-start;
+  justify-content: center; /* centre the 3 buttons; flex-start only needed when buttons overflow */
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   padding-bottom: 0.35rem;
-  margin-left: -4px;
-  margin-right: -4px;
   padding-left: 4px;
   padding-right: 4px;
 }
