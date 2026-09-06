@@ -65,7 +65,7 @@ const projectsData = [
 
   {
     id: 1,
-    title: 'Stroke Prediction App',
+    title: 'StrokeRiskAI',
     category: 'AI/ML',
     image: '/projects/stroke-prediction.png',
     fallbackEmoji: '🧠',
@@ -91,7 +91,7 @@ const projectsData = [
   },
   {
     id: 2,
-    title: 'House Price Prediction',
+    title: 'Boston House Price Prediction',
     category: 'AI/ML',
     image: '/projects/house-price.png',
     fallbackEmoji: '🏠',
@@ -117,7 +117,7 @@ const projectsData = [
   },
   {
     id: 3,
-    title: 'Traffic Accident Prediction',
+    title: 'CrashGuard AI',
     category: 'AI/ML',
     image: '/projects/traffic-accident.png',
     fallbackEmoji: '🚦',
@@ -172,7 +172,7 @@ const projectsData = [
 
   {
     id: 4,
-    title: 'Namaste Codes to ICD-11 Mapping',
+    title: 'Namaste to ICD-11 Mapping',
     category: 'Web',
     image: '/projects/namaste-icd.png',
     fallbackEmoji: '🩺',
@@ -224,7 +224,7 @@ const projectsData = [
   },
   {
     id: 6,
-    title: 'Interview Master',
+    title: 'InterviewMaster',
     category: 'Web',
     image: '/projects/interview-master.png',
     fallbackEmoji: '🎤',
