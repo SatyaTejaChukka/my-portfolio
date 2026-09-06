@@ -73,7 +73,7 @@ const projectsData = [
       'A comprehensive machine learning application that predicts stroke risk by analyzing patient health data including age, hypertension, heart disease, glucose levels, and BMI. Features include interactive data visualization, model comparison (Random Forest, XGBoost, Logistic Regression), and a REST API built with FastAPI for real-time predictions.',
     features: ['Risk Assessment Dashboard', 'Multiple ML Models', 'Real-time Predictions', 'Data Visualization'],
     tech: ['Python', 'Pandas', 'Numpy', 'FastAPI', 'Scikit-learn', 'Machine Learning'],
-    github: 'https://github.com/SatyaTejaChukka',
+    github: 'https://github.com/SatyaTejaChukka/stroke-prediction',
     demo: 'https://stroke-prediction-app.vercel.app/',
     screenshots: ['/my-portfolio/projects/stroke-prediction.png'],
     caseStudy: {
@@ -99,7 +99,7 @@ const projectsData = [
       'An end-to-end regression-based ML project that predicts Boston house prices using features like crime rate, number of rooms, property tax, and proximity to employment centers. Implements feature engineering, cross-validation, and hyperparameter tuning with a Flask web interface for user-friendly predictions.',
     features: ['Feature Engineering', 'Cross-Validation', 'Interactive Web UI', 'Model Explainability'],
     tech: ['Python', 'Pandas', 'Numpy', 'Flask', 'Scikit-learn', 'Regression'],
-    github: 'https://github.com/SatyaTejaChukka',
+    github: 'https://github.com/SatyaTejaChukka/bostonhousepricing',
     demo: 'https://bostonhousepricing-qi28.onrender.com/',
     screenshots: ['/my-portfolio/projects/house-price.png'],
     caseStudy: {
@@ -180,7 +180,7 @@ const projectsData = [
       'An interactive 3D visualization tool for exploring quantum computing concepts through Bloch sphere representations. Allows users to manipulate qubit states, apply quantum gates, and observe state transformations in real-time using Three.js for rendering and Qiskit for quantum simulations.',
     features: ['3D Visualization', 'Quantum Gate Operations', 'Multi-Qubit Support', 'Educational Tooltips'],
     tech: ['React', 'JavaScript', 'Three.js', 'Qiskit'],
-    github: 'https://github.com/SatyaTejaChukka',
+    github: 'https://github.com/SatyaTejaChukka/bloch-path-explorer',
     demo: 'https://bloch-sphere-explorer.vercel.app/',
     screenshots: ['/my-portfolio/projects/bloch-sphere.png'],
     caseStudy: {
