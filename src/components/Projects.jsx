@@ -67,7 +67,7 @@ const projectsData = [
     id: 1,
     title: 'Stroke Prediction App',
     category: 'AI/ML',
-    image: '/my-portfolio/projects/stroke-prediction.png',
+    image: '/projects/stroke-prediction.png',
     fallbackEmoji: '🧠',
     description:
       'A comprehensive machine learning application that predicts stroke risk by analyzing patient health data including age, hypertension, heart disease, glucose levels, and BMI. Features include interactive data visualization, model comparison (Random Forest, XGBoost, Logistic Regression), and a REST API built with FastAPI for real-time predictions.',
@@ -75,7 +75,7 @@ const projectsData = [
     tech: ['Python', 'Pandas', 'Numpy', 'FastAPI', 'Scikit-learn', 'Machine Learning'],
     github: 'https://github.com/SatyaTejaChukka/stroke-prediction',
     demo: 'https://stroke-prediction-five.vercel.app/',
-    screenshots: ['/my-portfolio/projects/stroke-prediction.png'],
+    screenshots: ['/projects/stroke-prediction.png'],
     caseStudy: {
       summary:
         'ML-driven web app that estimates stroke risk and compares model performance with a production-ready API.',
@@ -93,7 +93,7 @@ const projectsData = [
     id: 2,
     title: 'House Price Prediction',
     category: 'AI/ML',
-    image: '/my-portfolio/projects/house-price.png',
+    image: '/projects/house-price.png',
     fallbackEmoji: '🏠',
     description:
       'An end-to-end regression-based ML project that predicts Boston house prices using features like crime rate, number of rooms, property tax, and proximity to employment centers. Implements feature engineering, cross-validation, and hyperparameter tuning with a Flask web interface for user-friendly predictions.',
@@ -101,7 +101,7 @@ const projectsData = [
     tech: ['Python', 'Pandas', 'Numpy', 'Flask', 'Scikit-learn', 'Regression'],
     github: 'https://github.com/SatyaTejaChukka/bostonhousepricing',
     demo: 'https://bostonhousepricing-qi28.onrender.com/',
-    screenshots: ['/my-portfolio/projects/house-price.png'],
+    screenshots: ['/projects/house-price.png'],
     caseStudy: {
       summary:
         'Regression pipeline with a clean Flask UI to predict housing prices from key market features.',
@@ -119,7 +119,7 @@ const projectsData = [
     id: 3,
     title: 'Traffic Accident Prediction',
     category: 'AI/ML',
-    image: '/my-portfolio/projects/traffic-accident.png',
+    image: '/projects/traffic-accident.png',
     fallbackEmoji: '🚦',
     description:
       'A predictive analytics system that forecasts traffic accident severity using historical data including weather conditions, road characteristics, time of day, and location. Utilizes ensemble methods and feature importance analysis to identify key risk factors for road safety improvement.',
@@ -127,7 +127,7 @@ const projectsData = [
     tech: ['Python', 'Pandas', 'FastAPI', 'Scikit-learn', 'Machine Learning'],
     github: 'https://github.com/SatyaTejaChukka/traffic-accident',
     demo: 'https://traffic-accident-mauve.vercel.app/',
-    screenshots: ['/my-portfolio/projects/traffic-accident.png'],
+    screenshots: ['/projects/traffic-accident.png'],
     caseStudy: {
       summary:
         'Predictive system that classifies traffic accident severity using historical and environmental features.',
@@ -141,6 +141,32 @@ const projectsData = [
       highlights: ['Severity classification', 'Weather-aware modeling', 'Risk factor analysis'],
     },
   },
+  {
+    id: 8,
+    title: 'TubeRAG',
+    category: 'AI/ML',
+    image: '/projects/youtube-rag.png',
+    fallbackEmoji: '📺',
+    description:
+      'A privacy-first Retrieval-Augmented Generation application for asking natural language questions about YouTube channels, playlists, and videos. It extracts transcripts, creates semantic embeddings, and returns grounded answers with clickable citations that jump to the exact timestamp in the source video.',
+    features: ['YouTube Source Ingestion', 'Timestamp Citations', 'Local Embeddings', 'Hybrid BYOK AI'],
+    tech: ['React', 'TypeScript', 'FastAPI', 'ChromaDB', 'SentenceTransformers', 'Groq', 'Ollama'],
+    github: 'https://github.com/SatyaTejaChukka/youtube-rag',
+    demo: 'https://youtube-rag-two.vercel.app/',
+    screenshots: ['/projects/youtube-rag.png'],
+    caseStudy: {
+      summary:
+        'Privacy-first RAG application that turns YouTube content into a searchable, citation-backed knowledge base.',
+      problem:
+        'Finding specific information in long videos is slow, and answers from generic AI tools may not be grounded in the source content.',
+      solution:
+        'Built a transcript ingestion pipeline with local embeddings, vector search, and Groq or Ollama generation, then surfaced clickable timestamp citations in the chat experience.',
+      impact:
+        'Makes long-form video research faster while keeping user API keys in the browser and answers tied to their original sources.',
+      role: 'Full-stack architecture, RAG pipeline, privacy model, and user experience.',
+      highlights: ['Channel and playlist indexing', 'Grounded timestamp citations', 'Groq and local Ollama support'],
+    },
+  },
 
     /* ---------- Web / Frontend Projects ---------- */
 
@@ -148,7 +174,7 @@ const projectsData = [
     id: 4,
     title: 'Namaste Codes to ICD-11 Mapping',
     category: 'Web',
-    image: '/my-portfolio/projects/namaste-icd.png',
+    image: '/projects/namaste-icd.png',
     fallbackEmoji: '🩺',
     description:
       'A healthcare data processing solution that maps Indian Namaste medical codes to international ICD-11 standards. Features fuzzy matching algorithms, hierarchical code traversal, and a PostgreSQL database for efficient querying. Designed to improve healthcare interoperability and standardization.',
@@ -156,7 +182,7 @@ const projectsData = [
     tech: ['Python', 'FastAPI', 'PostgreSQL', 'Data Processing', 'Healthcare Data'],
     github: 'https://github.com/SatyaTejaChukka/namaste_to_icd',
     demo: 'https://namaste-to-icd11.vercel.app/',
-    screenshots: ['/my-portfolio/projects/namaste-icd.png'],
+    screenshots: ['/projects/namaste-icd.png'],
     caseStudy: {
       summary:
         'Healthcare data mapper that aligns Namaste codes with ICD-11 using fuzzy matching and hierarchy traversal.',
@@ -174,7 +200,7 @@ const projectsData = [
     id: 5,
     title: 'Bloch Path Explorer',
     category: 'Web',
-    image: '/my-portfolio/projects/bloch-sphere.png',
+    image: '/projects/bloch-sphere.png',
     fallbackEmoji: '⚛️',
     description:
       'An interactive 3D visualization tool for exploring quantum computing concepts through Bloch sphere representations. Allows users to manipulate qubit states, apply quantum gates, and observe state transformations in real-time using Three.js for rendering and Qiskit for quantum simulations.',
@@ -182,7 +208,7 @@ const projectsData = [
     tech: ['React', 'JavaScript', 'Three.js', 'Qiskit'],
     github: 'https://github.com/SatyaTejaChukka/bloch-path-explorer',
     demo: 'https://bloch-path-explorer.vercel.app/',
-    screenshots: ['/my-portfolio/projects/bloch-sphere.png'],
+    screenshots: ['/projects/bloch-sphere.png'],
     caseStudy: {
       summary:
         'Interactive 3D Bloch sphere for visualizing qubit states and quantum gate transformations.',
@@ -200,7 +226,7 @@ const projectsData = [
     id: 6,
     title: 'Interview Master',
     category: 'Web',
-    image: '/my-portfolio/projects/interview-master.png',
+    image: '/projects/interview-master.png',
     fallbackEmoji: '🎤',
     description:
       'A comprehensive interview preparation platform that helps users organize questions by category, track their preparation progress, and practice with timed mock sessions. Features include customizable question banks, performance analytics, and spaced repetition for effective learning.',
@@ -208,7 +234,7 @@ const projectsData = [
     tech: ['React', 'JavaScript', 'Frontend Development'],
     github: 'https://github.com/SatyaTejaChukka/interviewmaster',
     demo: 'https://interviewmaster-seven.vercel.app/',
-    screenshots: ['/my-portfolio/projects/interview-master.png'],
+    screenshots: ['/projects/interview-master.png'],
     caseStudy: {
       summary:
         'Interview prep platform that organizes practice questions and tracks readiness over time.',
@@ -226,7 +252,7 @@ const projectsData = [
     id: 7,
     title: 'WealthSync',
     category: 'Web',
-    image: '/my-portfolio/projects/wealthsync.png',
+    image: '/projects/wealthsync.png',
     fallbackEmoji: '💰',
     description:
       'A full-stack personal finance application for tracking income, expenses, and budgets with visual reports. Features include transaction categorization, monthly spending analysis, budget goal setting, and data export capabilities. Built with a FastAPI backend and PostgreSQL for secure data storage.',
@@ -234,7 +260,7 @@ const projectsData = [
     tech: ['React', 'JavaScript', 'FastAPI', 'PostgreSQL', 'Frontend Development'],
     github: 'https://github.com/SatyaTejaChukka/money_manage',
     demo: 'https://wealthsync-lemon.vercel.app/',
-    screenshots: ['/my-portfolio/projects/wealthsync.png'],
+    screenshots: ['/projects/wealthsync.png'],
     caseStudy: {
       summary:
         'Full-stack personal finance manager for tracking income, spending, and budgets with visual reports.',
