@@ -172,7 +172,7 @@ const projectsData = [
   },
   {
     id: 5,
-    title: 'Bloch Sphere Explorer',
+    title: 'Bloch Path Explorer',
     category: 'Web',
     image: '/my-portfolio/projects/bloch-sphere.png',
     fallbackEmoji: '⚛️',
@@ -181,7 +181,7 @@ const projectsData = [
     features: ['3D Visualization', 'Quantum Gate Operations', 'Multi-Qubit Support', 'Educational Tooltips'],
     tech: ['React', 'JavaScript', 'Three.js', 'Qiskit'],
     github: 'https://github.com/SatyaTejaChukka/bloch-path-explorer',
-    demo: 'https://bloch-sphere-explorer.vercel.app/',
+    demo: 'https://bloch-path-explorer.vercel.app/',
     screenshots: ['/my-portfolio/projects/bloch-sphere.png'],
     caseStudy: {
       summary:
@@ -207,7 +207,7 @@ const projectsData = [
     features: ['Question Bank', 'Progress Tracking', 'Mock Interviews', 'Performance Analytics'],
     tech: ['React', 'JavaScript', 'Frontend Development'],
     github: 'https://github.com/SatyaTejaChukka/interviewmaster',
-    demo: 'https://interview-master.vercel.app/',
+    demo: 'https://interviewmaster-seven.vercel.app/',
     screenshots: ['/my-portfolio/projects/interview-master.png'],
     caseStudy: {
       summary:
