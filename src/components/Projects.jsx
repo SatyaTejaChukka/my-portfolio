@@ -74,7 +74,7 @@ const projectsData = [
     features: ['Risk Assessment Dashboard', 'Multiple ML Models', 'Real-time Predictions', 'Data Visualization'],
     tech: ['Python', 'Pandas', 'Numpy', 'FastAPI', 'Scikit-learn', 'Machine Learning'],
     github: 'https://github.com/SatyaTejaChukka/stroke-prediction',
-    demo: 'https://stroke-prediction-app.vercel.app/',
+    demo: 'https://stroke-prediction-five.vercel.app/',
     screenshots: ['/my-portfolio/projects/stroke-prediction.png'],
     caseStudy: {
       summary:
@@ -126,7 +126,7 @@ const projectsData = [
     features: ['Severity Classification', 'Weather Integration', 'Geospatial Analysis', 'Risk Factor Identification'],
     tech: ['Python', 'Pandas', 'FastAPI', 'Scikit-learn', 'Machine Learning'],
     github: 'https://github.com/SatyaTejaChukka/traffic-accident',
-    demo: 'https://traffic-accident-prediction.vercel.app/',
+    demo: 'https://traffic-accident-mauve.vercel.app/',
     screenshots: ['/my-portfolio/projects/traffic-accident.png'],
     caseStudy: {
       summary:
